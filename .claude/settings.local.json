@@ -9,7 +9,21 @@
       "Bash(ls /Users/markus.sorem/Documents/kristiania/*.html /Users/markus.sorem/Documents/kristiania/studier/*.html)",
       "mcp__Claude_Preview__preview_start",
       "Bash(npx --version)",
-      "Bash(grep -E '\\\\.\\(jpg|jpeg|webp|png\\)$')"
+      "Bash(grep -E '\\\\.\\(jpg|jpeg|webp|png\\)$')",
+      "Bash(npx @anthropic-ai/claude-code plugins add vercel/vercel-plugin)",
+      "Bash(npx @anthropic-ai/claude-code plugins --help)",
+      "Bash(npx @anthropic-ai/claude-code plugins install vercel/vercel-plugin)",
+      "Bash(npx @anthropic-ai/claude-code plugins marketplace --help)",
+      "Bash(npx @anthropic-ai/claude-code plugins marketplace list)",
+      "Bash(npx @anthropic-ai/claude-code plugins marketplace add vercel/vercel-plugin)",
+      "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('message', d.get\\('description',''\\)\\)\\)\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/vercel/vercel-plugin/main/.claude-plugin/marketplace.json\")",
+      "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin/contents\")",
+      "Bash(python3 -c \"import json,sys; [print\\(f['name']\\) for f in json.load\\(sys.stdin\\)]\")",
+      "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin/contents/.claude\")",
+      "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin/contents/.plugin\")",
+      "Bash(npx @anthropic-ai/claude-code plugins install vercel/vercel-plugin@github)"
     ]
   }
 }
