@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ':*)",
+      "Bash(grep -o '.\\\\{0,200\\\\}sprite-logo-mobile.\\\\{0,100\\\\}' \"/Users/markus.sorem/Documents/kristiania/studietilbud _ Kristiania.html\")",
+      "Bash(grep -o '.\\\\{0,300\\\\}Kristiania logo.\\\\{0,300\\\\}' \"/Users/markus.sorem/Documents/kristiania/studietilbud _ Kristiania.html\")",
+      "WebFetch(domain:www.kristiania.no)",
+      "Bash(file /Users/markus.sorem/Documents/kristiania/*.html)",
+      "Bash(ls /Users/markus.sorem/Documents/kristiania/*.html /Users/markus.sorem/Documents/kristiania/studier/*.html)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(grep -E '\\\\.\\(jpg|jpeg|webp|png\\)$')"
+    ]
+  }
+}
