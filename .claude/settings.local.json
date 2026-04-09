@@ -23,7 +23,14 @@
       "Bash(python3 -c \"import json,sys; [print\\(f['name']\\) for f in json.load\\(sys.stdin\\)]\")",
       "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin/contents/.claude\")",
       "Bash(curl -s \"https://api.github.com/repos/vercel/vercel-plugin/contents/.plugin\")",
-      "Bash(npx @anthropic-ai/claude-code plugins install vercel/vercel-plugin@github)"
+      "Bash(npx @anthropic-ai/claude-code plugins install vercel/vercel-plugin@github)",
+      "Bash(curl -sL -o \"bachelor-i-digital-markedsforing-og-salgsledelse-kristiania-2025.jpg\" \"https://www.kristiania.no/contentassets/afb32d121a3e4662b45da0c51b3aee46/bachelor-i-digital-markedsforing-og-salgsledelse-kristiania-2025.jpg?width=1440\")",
+      "Bash(curl -sL -o \"some_christoffer_digitalmarkedsforingogsalgsledelse_rekrutteringskampanje23_benjaminavitsland.jpg\" \"https://www.kristiania.no/contentassets/56054e37caea4bfebf2546470ef1f0ab/some_christoffer_digitalmarkedsforingogsalgsledelse_rekrutteringskampanje23_benjaminavitsland.jpg?width=1440\")",
+      "Bash(curl -sL -o \"nils-hogevold.jpg\" \"https://www.kristiania.no/contentassets/a12eeb76d4f74d6db85abdcec3c85318/nils-hogevold.jpg?width=470\")",
+      "Bash(curl -sL -o \"into-campus-vimeo.jpg\" \"https://www.kristiania.no/contentassets/71b1ef842b214781a577c54f4b41558a/into-campus-vimeo.jpg?width=800\")",
+      "Bash(curl -sL -o \"slik-er-det-a-studere-pa-kristiania.jpg\" \"https://www.kristiania.no/contentassets/254ca03262384fd0a5886c86a63437da/slik-er-det-a-studere-pa-kristiania.jpg?width=800\")",
+      "Bash(python3)",
+      "Bash(ls \"/Users/markus.sorem/Documents/kristiania/studier/\"*.html)"
     ]
   }
 }
