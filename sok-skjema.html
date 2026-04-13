@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Søknadsskjema | Kristiania</title>
+<link rel="preconnect" href="https://www.kristiania.no">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikBold.4f49c33873a6d7f571f8.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikMedium.94982326f74c637ac5ec.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikSemibold.6670d77b61a5fc45b31e.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikRegular.7e9a488b4eb0442bc744.woff" as="font" crossorigin="anonymous">
+<style>
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikRegular.7e9a488b4eb0442bc744.woff') format('woff'); font-weight: 400; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikMedium.94982326f74c637ac5ec.woff') format('woff'); font-weight: 500; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikSemibold.6670d77b61a5fc45b31e.woff') format('woff'); font-weight: 600; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikBold.4f49c33873a6d7f571f8.woff') format('woff'); font-weight: 700; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Graphik', sans-serif;
+  font-weight: 400;
+  color: #121212;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* ── Topbar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 1070;
+  background: #fff; border-bottom: 1px solid #e8e8e8; height: 72px;
+}
+.topbar-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 32px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-logo img { display: block; height: 36px; }
+.topbar-icons { display: flex; align-items: center; gap: 16px; }
+.topbar-icon-btn { background: none; border: none; cursor: pointer; padding: 6px; display: flex; align-items: center; }
+.topbar-back {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 500; color: #121212; text-decoration: none; cursor: pointer;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Page layout ── */
+.checkout-page { min-height: calc(100vh - 72px); }
+
+.checkout-grid {
+  max-width: 1100px; margin: 0 auto; padding: 40px 32px;
+  display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start;
+}
+
+/* ── Form ── */
+.form-col { background: #fff; border-radius: 12px; overflow: hidden; }
+
+.login-section {
+  padding: 24px 24px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.btn-login {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; background: #111; color: #fff;
+  font-family: 'Graphik', sans-serif; font-size: 15px; font-weight: 600;
+  border: none; border-radius: 40px; cursor: pointer; width: 100%; transition: background 0.15s;
+}
+.btn-login:hover { background: #333; }
+
+.eller-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+.eller-line { flex: 1; height: 1px; background: #c7c8ca; }
+.eller-text { font-size: 12px; color: #3f3f3f; white-space: nowrap; }
+
+.form-section {
+  padding: 24px; display: flex; flex-direction: column; gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.form-section:last-child { border-bottom: none; }
+
+.section-title { font-size: 20px; font-weight: 500; color: #4e0000; }
+
+/* ── Inputs ── */
+.input-wrap { position: relative; }
+.input-wrap label {
+  position: absolute; top: 50%; left: 16px; transform: translateY(-50%);
+  font-size: 14px; color: #888; pointer-events: none;
+  transition: all .15s;
+}
+.input-wrap input:focus + label,
+.input-wrap input:not(:placeholder-shown) + label,
+.input-wrap select:focus + label,
+.input-wrap select.has-value + label {
+  top: 10px; transform: none; font-size: 11px; color: #555;
+}
+.input-wrap input, .input-wrap select {
+  width: 100%; border: 1.5px solid #c7c8ca; border-radius: 8px;
+  padding: 22px 16px 8px; font-size: 15px; font-weight: 500; color: #121212;
+  background: #fff; font-family: 'Graphik', sans-serif; outline: none;
+  transition: border-color .15s;
+}
+.input-wrap input:focus, .input-wrap select:focus { border-color: #06f; }
+.input-wrap.error input, .input-wrap.error select { border-color: #b60202; background: #fffbfb; }
+.error-msg {
+  font-size: 12px; color: #b60202; margin-top: 4px; display: none;
+  padding-left: 2px;
+}
+.input-wrap.error + .error-msg { display: block; }
+
+.fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Checkbox */
+.checkbox-row { display: flex; gap: 10px; align-items: flex-start; }
+.checkbox-box {
+  width: 20px; height: 20px; border: 1.5px solid #c7c8ca; border-radius: 4px;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; margin-top: 1px; transition: all .15s;
+}
+.checkbox-box.checked { background: #06f; border-color: #06f; }
+.checkbox-label { font-size: 14px; color: #121212; line-height: 20px; cursor: pointer; }
+
+/* Select */
+.input-wrap select { appearance: none; cursor: pointer; }
+.select-chevron {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ── Payment ── */
+.payment-price-rows { display: flex; flex-direction: column; gap: 0; }
+.payment-price-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid #f0f0f0;
+}
+.payment-price-row:last-child { border-bottom: none; }
+.payment-price-label { font-size: 14px; font-weight: 500; color: #121212; }
+.payment-price-value { font-size: 14px; font-weight: 600; color: #4e0000; white-space: nowrap; }
+.payment-price-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+.payment-info-box {
+  background: #fffbf8; border: 1px solid #f9ccd2; border-radius: 8px;
+  overflow: hidden;
+}
+
+.radio-group { border: 1.5px solid #c7c8ca; border-radius: 8px; overflow: hidden; width: 100%; }
+.radio-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-bottom: 1px solid #e8e8e8; cursor: pointer;
+}
+.radio-option:last-child { border-bottom: none; }
+.radio-option:hover { background: #fafafa; }
+.radio-option.active { background: #fff5f6; }
+.radio-circle {
+  width: 18px; height: 18px; border: 1.5px solid #c7c8ca; border-radius: 50%;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s;
+}
+.radio-circle.selected { border-color: #06f; }
+.radio-circle.selected::after { content: ''; width: 10px; height: 10px; background: #06f; border-radius: 50%; }
+.radio-text { font-size: 14px; color: #3f3f3f; }
+
+/* Card expand section */
+.card-fields-expand {
+  display: none; padding: 0 16px 16px; background: #fff5f6;
+}
+.card-fields-expand.open { display: block; }
+.card-field-wrap { position: relative; margin-bottom: 12px; }
+.card-field-wrap:last-child { margin-bottom: 0; }
+.card-field-wrap label {
+  position: absolute; top: 50%; left: 16px; transform: translateY(-50%);
+  font-size: 14px; color: #888; pointer-events: none; transition: all .15s;
+}
+.card-field-wrap input:focus + label,
+.card-field-wrap input:not(:placeholder-shown) + label {
+  top: 10px; transform: none; font-size: 11px; color: #555;
+}
+.card-field-wrap input {
+  width: 100%; border: 1.5px solid #c7c8ca; border-radius: 8px;
+  padding: 22px 16px 8px; font-size: 15px; font-weight: 500; color: #121212;
+  background: #fff; font-family: 'Graphik', sans-serif; outline: none;
+  transition: border-color .15s;
+}
+.card-field-wrap input:focus { border-color: #06f; }
+.card-field-wrap .card-icon {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: #888;
+}
+.card-fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Rabattkode */
+.rabattkode-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; color: #06f; cursor: pointer;
+  background: none; border: none; font-family: 'Graphik', sans-serif; padding: 0;
+}
+.rabattkode-toggle:hover { text-decoration: underline; }
+.rabattkode-row {
+  display: none; gap: 8px; align-items: stretch;
+}
+.rabattkode-row.open { display: flex; }
+.rabattkode-row input {
+  flex: 1; border: 1.5px solid #c7c8ca; border-radius: 8px;
+  padding: 12px 16px; font-size: 14px; font-family: 'Graphik', sans-serif; outline: none;
+}
+.rabattkode-row input:focus { border-color: #06f; }
+.rabattkode-row button {
+  background: #111; color: #fff; border: none; border-radius: 8px;
+  padding: 0 20px; font-size: 14px; font-weight: 600; font-family: 'Graphik', sans-serif;
+  cursor: pointer; white-space: nowrap;
+}
+.rabattkode-row button:hover { background: #333; }
+
+.payment-footnote { font-size: 12px; color: #888; line-height: 18px; }
+
+/* ── Submit ── */
+.btn-primary {
+  display: flex; align-items: center; justify-content: center;
+  height: 52px; background: #06f; color: #fff;
+  font-family: 'Graphik', sans-serif; font-size: 16px; font-weight: 600;
+  border: none; border-radius: 40px; cursor: pointer; width: 100%; transition: background 0.15s;
+}
+.btn-primary:hover { background: #0052d4; }
+.btn-primary:disabled { background: #b0b0b0; cursor: not-allowed; }
+
+.form-submit-section { display: none; padding: 24px; background: #fff; }
+
+/* ── Error banner ── */
+.error-banner {
+  display: none; background: #fff0f0; border: 1.5px solid #e8a0a0; border-radius: 10px;
+  padding: 16px 20px; margin-bottom: 16px;
+  font-size: 14px; color: #8b0000; line-height: 1.5;
+}
+.error-banner.show { display: flex; gap: 12px; align-items: flex-start; }
+.error-banner svg { flex-shrink: 0; margin-top: 1px; }
+
+/* ── Summary column ── */
+.summary-col {
+  background: #fff; border-radius: 12px; overflow: hidden;
+  position: sticky; top: 112px;
+}
+.summary-header {
+  background: #fffbf8; border-bottom: 1px solid #f9ccd2;
+  padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+}
+.summary-header-label { font-size: 16px; font-weight: 500; color: #4e0000; }
+.summary-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+.summary-divider { height: 1px; background: #e8e8e8; }
+.summary-total {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px; border-top: 1px solid #e8e8e8;
+}
+.summary-total-label { font-size: 16px; font-weight: 500; }
+.summary-total-value { font-size: 18px; font-weight: 600; color: #4e0000; }
+.summary-footnote { font-size: 12px; color: #888; text-align: center; line-height: 18px; }
+.summary-submit { padding: 0 20px 24px; background: #fff; }
+
+/* ── Kvitteringsside ── */
+.receipt-page {
+  display: none; min-height: calc(100vh - 72px);
+  justify-content: center; padding: 60px 24px;
+}
+.receipt-card {
+  background: #fff; border-radius: 16px; padding: 48px 40px; max-width: 580px; width: 100%;
+  text-align: center; box-shadow: 0 2px 16px rgba(0,0,0,.06);
+}
+.receipt-check {
+  width: 72px; height: 72px; border-radius: 50%; background: #15a34a;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.receipt-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; color: #111; }
+.receipt-items { text-align: left; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.receipt-item {
+  border: 1.5px solid #e5e5e5; border-radius: 10px; padding: 16px 20px;
+}
+.receipt-item-name { font-size: 16px; font-weight: 600; color: #111; margin-bottom: 4px; }
+.receipt-item-meta { font-size: 13px; color: #666; display: flex; align-items: center; gap: 8px; }
+.receipt-item-badge {
+  display: inline-block; font-size: 12px; font-weight: 500; padding: 2px 10px;
+  border-radius: 12px; background: #f0f0f0; color: #555;
+}
+.receipt-item-emner-toggle {
+  font-size: 13px; color: #06f; cursor: pointer; margin-top: 6px; display: inline-flex; align-items: center; gap: 4px;
+}
+.receipt-item-emner { display: none; margin-top: 8px; border-top: 1px solid #f0f0f0; padding-top: 8px; }
+.receipt-item-emner.open { display: block; }
+.receipt-item-emne-row { font-size: 13px; color: #444; padding: 3px 0; }
+.receipt-info { font-size: 15px; color: #555; margin-bottom: 24px; line-height: 1.6; }
+.btn-dark {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 52px; padding: 0 40px; background: #111; color: #fff;
+  font-family: 'Graphik', sans-serif; font-size: 15px; font-weight: 600;
+  border: none; border-radius: 40px; cursor: pointer; text-decoration: none; transition: background .15s;
+}
+.btn-dark:hover { background: #333; }
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .checkout-grid { grid-template-columns: 1fr; padding: 20px 16px; gap: 16px; }
+  .summary-col { display: none; }
+  .form-submit-section { display: block; }
+}
+@media (max-width: 600px) {
+  .checkout-grid { padding: 0; gap: 0; }
+  .form-col { border-radius: 0; }
+  .form-section { padding: 24px 16px; }
+  .login-section { padding: 16px; }
+  .form-submit-section { padding: 16px; }
+  .topbar-inner { padding: 0 16px; }
+  .receipt-card { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="javascript:history.back()" class="topbar-back" aria-label="Tilbake">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Tilbake
+    </a>
+    <a href="index.html" class="topbar-logo">
+      <img src="topbar/Kristiania_logo_22_sort.svg" height="36" alt="Kristiania logo">
+    </a>
+    <div class="topbar-icons">
+      <button class="topbar-icon-btn" aria-label="Min side">
+        <img src="topbar/User.svg" width="24" height="24" alt="">
+      </button>
+      <button class="topbar-icon-btn" onclick="openSoknaderPanel()" aria-label="Handlekurv" style="position:relative;">
+        <img src="topbar/Basket.svg" width="24" height="24" alt="">
+        <span id="topbar-basket-count" style="display:none;position:absolute;top:2px;right:2px;background:#c8233f;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;line-height:16px;text-align:center;"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SKJEMA-SIDE ════════ -->
+<div class="checkout-page" id="checkoutPage">
+  <div class="checkout-grid">
+
+    <!-- Left: Form -->
+    <div>
+      <!-- Error banner (hidden by default) -->
+      <div class="error-banner" id="errorBanner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#b60202" stroke-width="1.5"/><path d="M12 8v4m0 4h.01" stroke="#b60202" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span id="errorBannerText">Vennligst fyll ut alle obligatoriske felter.</span>
+      </div>
+
+      <div class="form-col">
+        <!-- Login -->
+        <div class="login-section">
+          <button class="btn-login" onclick="simulateLogin()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="#fff" stroke-width="1.5"/></svg>
+            Logg inn med Kristiania-konto
+          </button>
+          <div class="eller-row">
+            <div class="eller-line"></div>
+            <span class="eller-text">ELLER FYLL UT MANUELT</span>
+            <div class="eller-line"></div>
+          </div>
+        </div>
+
+        <!-- Kontakt -->
+        <div class="form-section">
+          <h2 class="section-title">Kontakt</h2>
+
+          <div>
+            <div class="input-wrap" id="wrap-telefon">
+              <input type="tel" id="telefon" placeholder=" " autocomplete="tel">
+              <label for="telefon">Telefonnummer</label>
+            </div>
+            <div class="error-msg" id="err-telefon">Oppgi et gyldig telefonnummer</div>
+          </div>
+
+          <div>
+            <div class="input-wrap" id="wrap-epost">
+              <input type="email" id="epost" placeholder=" " autocomplete="email">
+              <label for="epost">E-postadresse</label>
+            </div>
+            <div class="error-msg" id="err-epost">Oppgi en gyldig e-postadresse</div>
+          </div>
+
+          <div class="checkbox-row">
+            <div class="checkbox-box" id="cb-kontakt" onclick="this.classList.toggle('checked')">
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                <path d="M1 5l3.5 3.5L11 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="checkbox-label" onclick="document.getElementById('cb-kontakt').classList.toggle('checked')">En studieradgiver kan kontakte meg hvis det er nødvendig for å følge opp søknaden min</span>
+          </div>
+        </div>
+
+        <!-- Personopplysninger -->
+        <div class="form-section">
+          <h2 class="section-title">Personopplysninger</h2>
+
+          <div>
+            <div class="input-wrap" id="wrap-fnr">
+              <input type="text" id="fnr" placeholder=" " maxlength="11" autocomplete="off" inputmode="numeric">
+              <label for="fnr">Fødselsnummer (11 siffer)</label>
+            </div>
+            <div class="error-msg" id="err-fnr">Fyll inn et gyldig fødselsnummer (11 siffer)</div>
+          </div>
+
+          <div class="fields-row">
+            <div>
+              <div class="input-wrap" id="wrap-fornavn">
+                <input type="text" id="fornavn" placeholder=" " autocomplete="given-name">
+                <label for="fornavn">Fornavn og mellomnavn</label>
+              </div>
+              <div class="error-msg" id="err-fornavn">Oppgi fornavn</div>
+            </div>
+            <div>
+              <div class="input-wrap" id="wrap-etternavn">
+                <input type="text" id="etternavn" placeholder=" " autocomplete="family-name">
+                <label for="etternavn">Etternavn</label>
+              </div>
+              <div class="error-msg" id="err-etternavn">Oppgi etternavn</div>
+            </div>
+          </div>
+
+          <div class="input-wrap" id="wrap-spraak" style="position:relative;">
+            <select id="spraak" onchange="this.classList.toggle('has-value', this.value !== '')">
+              <option value="" disabled selected></option>
+              <option value="norsk">Norsk</option>
+              <option value="engelsk">Engelsk</option>
+              <option value="annet">Annet</option>
+            </select>
+            <label for="spraak">Språk</label>
+            <div class="select-chevron">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Adresse -->
+        <div class="form-section">
+          <h2 class="section-title">Adresse</h2>
+
+          <div>
+            <div class="input-wrap" id="wrap-gate">
+              <input type="text" id="gate" placeholder=" " autocomplete="street-address">
+              <label for="gate">Gate og husnummer</label>
+            </div>
+            <div class="error-msg" id="err-gate">Oppgi adresse</div>
+          </div>
+
+          <div class="fields-row">
+            <div>
+              <div class="input-wrap" id="wrap-postnr">
+                <input type="text" id="postnr" placeholder=" " maxlength="4" inputmode="numeric" autocomplete="postal-code">
+                <label for="postnr">Postnummer</label>
+              </div>
+              <div class="error-msg" id="err-postnr">Oppgi postnummer (4 siffer)</div>
+            </div>
+            <div>
+              <div class="input-wrap" id="wrap-poststed">
+                <input type="text" id="poststed" placeholder=" " autocomplete="address-level2">
+                <label for="poststed">Poststed</label>
+              </div>
+              <div class="error-msg" id="err-poststed">Oppgi poststed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Betaling -->
+        <div class="form-section">
+          <h2 class="section-title">Betaling</h2>
+
+          <!-- Dynamic price summary from basket -->
+          <div class="payment-info-box">
+            <div class="payment-price-rows" id="paymentPriceRows">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#4e0000;margin-bottom:8px;">Velg betalingsmetode</div>
+            <div class="radio-group" id="betalingGroup">
+              <!-- Kortbetaling -->
+              <label class="radio-option" id="opt-kort">
+                <input type="radio" name="betaling" value="kort" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Kortbetaling</span>
+              </label>
+              <div class="card-fields-expand" id="cardFieldsExpand">
+                <div class="card-field-wrap">
+                  <input type="text" id="card-number" placeholder=" " inputmode="numeric" maxlength="19" autocomplete="cc-number" oninput="formatCardNumber(this)">
+                  <label for="card-number">Kortnummer</label>
+                  <div class="card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </div>
+                </div>
+                <div class="card-fields-row">
+                  <div class="card-field-wrap">
+                    <input type="text" id="card-expiry" placeholder=" " inputmode="numeric" maxlength="5" autocomplete="cc-exp" oninput="formatExpiry(this)">
+                    <label for="card-expiry">Utløpsdato</label>
+                  </div>
+                  <div class="card-field-wrap">
+                    <input type="text" id="card-cvc" placeholder=" " inputmode="numeric" maxlength="4" autocomplete="cc-csc">
+                    <label for="card-cvc">Sikkerhetskode</label>
+                    <div class="card-icon">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4m0-4h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-field-wrap">
+                  <input type="text" id="card-name" placeholder=" " autocomplete="cc-name">
+                  <label for="card-name">Navn på kortet</label>
+                </div>
+              </div>
+
+              <!-- Avdrag -->
+              <label class="radio-option" id="opt-avdrag">
+                <input type="radio" name="betaling" value="avdrag" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Avdrag</span>
+              </label>
+              <!-- Faktura -->
+              <label class="radio-option" id="opt-faktura">
+                <input type="radio" name="betaling" value="faktura" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Faktura</span>
+              </label>
+              <!-- Arbeidsgiver/NAV -->
+              <label class="radio-option" id="opt-arbeidsgiver">
+                <input type="radio" name="betaling" value="arbeidsgiver" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Arbeidsgiver eller NAV betaler</span>
+              </label>
+            </div>
+            <div class="error-msg" id="err-betaling" style="display:none;">Velg en betalingsmetode</div>
+          </div>
+
+          <!-- Rabattkode -->
+          <div>
+            <button class="rabattkode-toggle" onclick="toggleRabattkode()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Rabattkode
+            </button>
+            <div class="rabattkode-row" id="rabattkodeRow">
+              <input type="text" id="rabattkode" placeholder="Skriv inn rabattkode">
+              <button onclick="applyRabattkode()">Bruk</button>
+            </div>
+          </div>
+
+          <div class="payment-footnote">Alltid 14 dagers angrerett. Alle transaksjoner er sikre og krypterte.</div>
+        </div>
+
+        <!-- Samtykke + Send (mobile) -->
+        <div class="form-section">
+          <div class="checkbox-row">
+            <div class="checkbox-box" id="cb-samtykke" onclick="this.classList.toggle('checked')">
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+                <path d="M1 5l3.5 3.5L11 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="checkbox-label" onclick="document.getElementById('cb-samtykke').classList.toggle('checked')">
+              Jeg bekrefter at opplysningene er korrekte og godtar <a href="#" style="color:#06f;" onclick="event.stopPropagation()">vilkårene</a> for søknaden
+            </span>
+          </div>
+          <div class="error-msg" id="err-samtykke" style="display:none;">Du må godta vilkårene for å sende søknaden</div>
+
+          <div class="form-submit-section" style="padding:0;">
+            <button class="btn-primary" onclick="sendSoknad()">Send søknaden</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Summary (desktop) -->
+    <aside class="summary-col">
+      <div class="summary-header" onclick="toggleDesktopSummary()">
+        <span class="summary-header-label">Sammendrag av søknad</span>
+        <svg id="desktopChevron" width="24" height="24" viewBox="0 0 24 24" fill="none" style="transition:transform .2s;transform:rotate(180deg);">
+          <path d="M6 9l6 6 6-6" stroke="#4e0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="summary-body" id="desktopSummaryBody">
+        <div id="checkout-summary-content" style="display:flex;flex-direction:column;gap:12px;"></div>
+        <div class="summary-footnote" style="margin-top:16px;">Alltid 14 dagers angrerett.<br>Alle transaksjoner er sikre og krypterte.</div>
+      </div>
+      <div class="summary-submit" id="desktopSubmit">
+        <button class="btn-primary" onclick="sendSoknad()">Send søknaden</button>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- ════════ KVITTERINGSSIDE ════════ -->
+<div class="receipt-page" id="receiptPage">
+  <div class="receipt-card">
+    <div class="receipt-check">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="receipt-title">Takk for din søknad!</h1>
+    <div class="receipt-items" id="receiptItems">
+      <!-- Populated by JS -->
+    </div>
+    <p class="receipt-info">
+      Du vil motta en bekreftelse på <strong id="receiptEmail">din e-post</strong>.<br>
+      Se status på søknaden din inne på Mitt Kristiania.
+    </p>
+    <a href="index.html" class="btn-dark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Gå til Mitt Kristiania
+    </a>
+  </div>
+</div>
+
+<script src="basket.js"></script>
+<script>
+/* ── Render summary ── */
+function renderCheckoutSummary() {
+  var b = getBasket();
+  var el = document.getElementById('checkout-summary-content');
+  if (!el) return;
+  var hasItems = (b.programs && b.programs.length > 0) || (b.looseEmner && b.looseEmner.length > 0);
+  if (!hasItems) {
+    el.innerHTML = '<div style="color:#888;font-size:14px;text-align:center;padding:16px 0;">Ingen studier valgt. <a href="studietilbud _ Kristiania.html" style="color:#4e0000;">Gå til studietilbud</a></div>';
+    return;
+  }
+  var campus = (b.programs || []).filter(function(p) { return p.type === 'campus'; });
+  var nett = (b.programs || []).filter(function(p) { return p.type === 'nett'; });
+  var loose = b.looseEmner || [];
+  var html = '';
+  var grandTotal = 0;
+  if (campus.length > 0) {
+    campus.forEach(function(p) {
+      html += '<div style="border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
+        + '<div style="font-size:15px;font-weight:600;margin-bottom:4px;">' + p.name + '</div>'
+        + '<div style="font-size:13px;color:#666;">' + (p.city || '') + ' &middot; ' + (p.points || '') + '</div>'
+        + '</div>';
+      grandTotal += (p.price || 0);
+    });
+  }
+  if (nett.length > 0) {
+    nett.forEach(function(p) {
+      var emner = p.emner || [];
+      var progTotal = 0;
+      emner.forEach(function(e) { progTotal += (e.price || 0); });
+      html += '<div style="border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
+        + '<div style="font-size:15px;font-weight:600;margin-bottom:4px;">' + p.name + '</div>'
+        + '<div style="font-size:13px;color:#666;">Nett &middot; ' + (p.points || emner.length + ' emner') + '</div>'
+        + '</div>';
+      grandTotal += progTotal;
+    });
+  }
+  if (loose.length > 0) {
+    loose.forEach(function(e) {
+      html += '<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;">'
+        + '<span>' + e.name + ' (' + e.pts + ' stp)</span>'
+        + '<span style="white-space:nowrap;">' + (e.price || 0).toLocaleString('nb-NO') + ' kr</span></div>';
+      grandTotal += (e.price || 0);
+    });
+  }
+  if (grandTotal > 0) {
+    html += '<div class="summary-divider"></div>'
+      + '<div class="summary-total"><span class="summary-total-label">Totalt</span><span class="summary-total-value">' + grandTotal.toLocaleString('nb-NO') + ' kr</span></div>';
+  }
+  el.innerHTML = html;
+}
+
+/* ── Validation ── */
+function validateField(id, test) {
+  var wrap = document.getElementById('wrap-' + id);
+  var errEl = document.getElementById('err-' + id);
+  if (!wrap) return test;
+  if (test) {
+    wrap.classList.remove('error');
+    if (errEl) errEl.style.display = 'none';
+  } else {
+    wrap.classList.add('error');
+    if (errEl) errEl.style.display = 'block';
+  }
+  return test;
+}
+
+function validateForm() {
+  var ok = true;
+  var tel = document.getElementById('telefon').value.replace(/\s/g, '');
+  if (!validateField('telefon', tel.length >= 8 && /^\+?\d{8,15}$/.test(tel))) ok = false;
+
+  var email = document.getElementById('epost').value.trim();
+  if (!validateField('epost', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) ok = false;
+
+  var fnr = document.getElementById('fnr').value.replace(/\s/g, '');
+  if (!validateField('fnr', /^\d{11}$/.test(fnr))) ok = false;
+
+  if (!validateField('fornavn', document.getElementById('fornavn').value.trim().length > 0)) ok = false;
+  if (!validateField('etternavn', document.getElementById('etternavn').value.trim().length > 0)) ok = false;
+  if (!validateField('gate', document.getElementById('gate').value.trim().length > 0)) ok = false;
+
+  var postnr = document.getElementById('postnr').value.trim();
+  if (!validateField('postnr', /^\d{4}$/.test(postnr))) ok = false;
+  if (!validateField('poststed', document.getElementById('poststed').value.trim().length > 0)) ok = false;
+
+  // Betaling
+  var betalingChecked = document.querySelector('input[name="betaling"]:checked');
+  var errBetaling = document.getElementById('err-betaling');
+  if (!betalingChecked) {
+    ok = false;
+    if (errBetaling) errBetaling.style.display = 'block';
+  } else {
+    if (errBetaling) errBetaling.style.display = 'none';
+    // Validate card fields if Kortbetaling is selected
+    if (betalingChecked.value === 'kort') {
+      var cn = document.getElementById('card-number').value.replace(/\s/g, '');
+      if (cn.length < 13) { ok = false; document.getElementById('card-number').style.borderColor = '#b60202'; }
+      else { document.getElementById('card-number').style.borderColor = ''; }
+      var exp = document.getElementById('card-expiry').value;
+      if (!/^\d{2}\/\d{2}$/.test(exp)) { ok = false; document.getElementById('card-expiry').style.borderColor = '#b60202'; }
+      else { document.getElementById('card-expiry').style.borderColor = ''; }
+      var cvc = document.getElementById('card-cvc').value;
+      if (!/^\d{3,4}$/.test(cvc)) { ok = false; document.getElementById('card-cvc').style.borderColor = '#b60202'; }
+      else { document.getElementById('card-cvc').style.borderColor = ''; }
+      var cname = document.getElementById('card-name').value.trim();
+      if (!cname) { ok = false; document.getElementById('card-name').style.borderColor = '#b60202'; }
+      else { document.getElementById('card-name').style.borderColor = ''; }
+    }
+  }
+
+  // Samtykke
+  var samtykke = document.getElementById('cb-samtykke').classList.contains('checked');
+  var errSamtykke = document.getElementById('err-samtykke');
+  if (!samtykke) {
+    ok = false;
+    if (errSamtykke) errSamtykke.style.display = 'block';
+  } else {
+    if (errSamtykke) errSamtykke.style.display = 'none';
+  }
+
+  // Error banner
+  var banner = document.getElementById('errorBanner');
+  if (!ok) {
+    banner.classList.add('show');
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    banner.classList.remove('show');
+  }
+
+  return ok;
+}
+
+/* ── Submit ── */
+function sendSoknad() {
+  if (!validateForm()) return;
+
+  // Build receipt
+  var b = getBasket();
+  var items = document.getElementById('receiptItems');
+  var html = '';
+
+  (b.programs || []).forEach(function(p, idx) {
+    var isNett = p.type === 'nett';
+    var emner = p.emner || [];
+    var metaParts = [];
+    if (isNett) metaParts.push('<span class="receipt-item-badge">Nett</span>');
+    if (p.city) metaParts.push('<span class="receipt-item-badge">' + p.city + '</span>');
+    metaParts.push(p.points || (emner.length + ' emner'));
+
+    html += '<div class="receipt-item">'
+      + '<div class="receipt-item-name">' + (p.level ? p.level + ' i ' : '') + p.name + '</div>'
+      + '<div class="receipt-item-meta">' + metaParts.join(' &middot; ') + '</div>';
+
+    if (isNett && emner.length > 0) {
+      html += '<div class="receipt-item-emner-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\');this.querySelector(\'span\').textContent=this.nextElementSibling.classList.contains(\'open\')?\'Skjul emner\':\'Emner\'">'
+        + '<span>Emner</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>'
+        + '<div class="receipt-item-emner">';
+      emner.forEach(function(e) {
+        html += '<div class="receipt-item-emne-row">' + e.name + ' (' + e.pts + ' stp)</div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+
+  (b.looseEmner || []).forEach(function(e) {
+    html += '<div class="receipt-item">'
+      + '<div class="receipt-item-name">' + e.name + '</div>'
+      + '<div class="receipt-item-meta">' + e.pts + ' stp &middot; ' + (e.program || 'Enkeltemne') + '</div>'
+      + '</div>';
+  });
+
+  items.innerHTML = html;
+
+  // Show email in receipt
+  var emailVal = document.getElementById('epost').value.trim();
+  document.getElementById('receiptEmail').textContent = emailVal;
+
+  // Switch to receipt page
+  document.getElementById('checkoutPage').style.display = 'none';
+  document.getElementById('receiptPage').style.display = 'flex';
+  window.scrollTo(0, 0);
+
+  // Clear basket
+  clearBasket();
+}
+
+/* ── Simulate login (pre-fill demo data) ── */
+function simulateLogin() {
+  document.getElementById('telefon').value = '99310810';
+  document.getElementById('epost').value = 'ola.nordmann@gmail.com';
+  document.getElementById('fornavn').value = 'Ola';
+  document.getElementById('etternavn').value = 'Nordmann';
+  document.getElementById('fnr').value = '01019912345';
+  document.getElementById('gate').value = 'Storgata 1';
+  document.getElementById('postnr').value = '0182';
+  document.getElementById('poststed').value = 'Oslo';
+  var spraak = document.getElementById('spraak');
+  spraak.value = 'norsk';
+  spraak.classList.add('has-value');
+  // Trigger float labels
+  document.querySelectorAll('.input-wrap input').forEach(function(inp) {
+    inp.dispatchEvent(new Event('input'));
+  });
+  // Clear any errors
+  document.querySelectorAll('.input-wrap.error').forEach(function(w) { w.classList.remove('error'); });
+  document.querySelectorAll('.error-msg').forEach(function(m) { m.style.display = 'none'; });
+  document.getElementById('errorBanner').classList.remove('show');
+}
+
+/* ── Clear errors on input ── */
+document.addEventListener('input', function(e) {
+  var inp = e.target;
+  if (!inp.id) return;
+  var wrap = document.getElementById('wrap-' + inp.id);
+  if (wrap && wrap.classList.contains('error')) {
+    wrap.classList.remove('error');
+    var err = document.getElementById('err-' + inp.id);
+    if (err) err.style.display = 'none';
+  }
+});
+
+/* ── Radio ── */
+function updateRadio(input) {
+  document.querySelectorAll('.radio-circle').forEach(function(c) { c.classList.remove('selected'); });
+  document.querySelectorAll('.radio-option').forEach(function(o) { o.classList.remove('active'); });
+  input.closest('.radio-option').querySelector('.radio-circle').classList.add('selected');
+  input.closest('.radio-option').classList.add('active');
+  var errBetaling = document.getElementById('err-betaling');
+  if (errBetaling) errBetaling.style.display = 'none';
+
+  // Expand/collapse card fields
+  var cardExpand = document.getElementById('cardFieldsExpand');
+  if (input.value === 'kort') {
+    cardExpand.classList.add('open');
+    // Pre-fill name from personal info if available
+    var fornavn = document.getElementById('fornavn').value.trim();
+    var etternavn = document.getElementById('etternavn').value.trim();
+    var cardName = document.getElementById('card-name');
+    if (fornavn && etternavn && !cardName.value) {
+      cardName.value = fornavn + ' ' + etternavn;
+    }
+  } else {
+    cardExpand.classList.remove('open');
+  }
+}
+
+/* ── Payment price summary ── */
+function renderPaymentPrices() {
+  var b = getBasket();
+  var el = document.getElementById('paymentPriceRows');
+  if (!el) return;
+  var html = '';
+
+  // Campus programs → "Faktureres per semester"
+  var campus = (b.programs || []).filter(function(p) { return p.type === 'campus'; });
+  if (campus.length > 0) {
+    campus.forEach(function(p) {
+      html += '<div class="payment-price-row">'
+        + '<div><div class="payment-price-label">Studieprogram</div><div class="payment-price-sub">' + p.name + '</div></div>'
+        + '<div class="payment-price-value">Faktureres per semester</div>'
+        + '</div>';
+    });
+  }
+
+  // Nett programs → count emner + total price
+  var nett = (b.programs || []).filter(function(p) { return p.type === 'nett'; });
+  nett.forEach(function(p) {
+    var emner = p.emner || [];
+    var total = 0;
+    emner.forEach(function(e) { total += (e.price || 0); });
+    if (emner.length > 0) {
+      html += '<div class="payment-price-row">'
+        + '<div><div class="payment-price-label">Emner</div><div class="payment-price-sub">' + p.name + '</div></div>'
+        + '<div class="payment-price-value">' + emner.length + ' emner &middot; ' + total.toLocaleString('nb-NO') + ' kr</div>'
+        + '</div>';
+    }
+  });
+
+  // Loose emner
+  var loose = b.looseEmner || [];
+  if (loose.length > 0) {
+    var looseTotal = 0;
+    loose.forEach(function(e) { looseTotal += (e.price || 0); });
+    html += '<div class="payment-price-row">'
+      + '<div><div class="payment-price-label">Enkeltemner</div></div>'
+      + '<div class="payment-price-value">' + loose.length + ' emner &middot; ' + looseTotal.toLocaleString('nb-NO') + ' kr</div>'
+      + '</div>';
+  }
+
+  if (!html) {
+    html = '<div class="payment-price-row"><div class="payment-price-label" style="color:#888;">Ingen emner i handlekurven</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+/* ── Card number formatting ── */
+function formatCardNumber(input) {
+  var v = input.value.replace(/\D/g, '').substring(0, 16);
+  input.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+}
+function formatExpiry(input) {
+  var v = input.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 3) v = v.substring(0, 2) + '/' + v.substring(2);
+  input.value = v;
+}
+
+/* ── Rabattkode ── */
+function toggleRabattkode() {
+  var row = document.getElementById('rabattkodeRow');
+  row.classList.toggle('open');
+  if (row.classList.contains('open')) {
+    document.getElementById('rabattkode').focus();
+  }
+}
+function applyRabattkode() {
+  var code = document.getElementById('rabattkode').value.trim();
+  if (!code) return;
+  // Demo: just show a confirmation
+  alert('Rabattkode "' + code + '" er registrert.');
+}
+
+/* ── Summary toggle ── */
+function toggleDesktopSummary() {
+  var body = document.getElementById('desktopSummaryBody');
+  var submit = document.getElementById('desktopSubmit');
+  var chevron = document.getElementById('desktopChevron');
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'flex';
+  submit.style.display = isOpen ? 'none' : 'block';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  renderCheckoutSummary();
+  renderPaymentPrices();
+});
+</script>
+
+</body>
+</html>

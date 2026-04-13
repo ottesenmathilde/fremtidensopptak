@@ -30,7 +30,24 @@
       "Bash(curl -sL -o \"into-campus-vimeo.jpg\" \"https://www.kristiania.no/contentassets/71b1ef842b214781a577c54f4b41558a/into-campus-vimeo.jpg?width=800\")",
       "Bash(curl -sL -o \"slik-er-det-a-studere-pa-kristiania.jpg\" \"https://www.kristiania.no/contentassets/254ca03262384fd0a5886c86a63437da/slik-er-det-a-studere-pa-kristiania.jpg?width=800\")",
       "Bash(python3)",
-      "Bash(ls \"/Users/markus.sorem/Documents/kristiania/studier/\"*.html)"
+      "Bash(ls \"/Users/markus.sorem/Documents/kristiania/studier/\"*.html)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(claude mcp:*)",
+      "Bash(curl -s http://127.0.0.1:3845/mcp -X POST -H \"Content-Type: application/json\" -d '{\"jsonrpc\":\"2.0\",\"method\":\"tools/list\",\"id\":1}')",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s http://127.0.0.1:3845/mcp -X POST -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}},\"id\":1}')",
+      "Bash(curl -s http://127.0.0.1:3845/mcp -X POST -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"method\":\"tools/list\",\"params\":{},\"id\":2}')",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "Bash(ls /Users/markus.sorem/Documents/kristiania/*.svg)",
+      "Bash(python3 generate_study_pages.py)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 generate_study_pages.py --force)",
+      "Bash(python3 -)",
+      "Bash(grep -rl \"basket.js\" studier/*.html)",
+      "Bash(grep -rl \"__addThisProgram\" studier/*.html)",
+      "Bash(python3 cleanup_studier.py)"
     ]
   }
 }

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Søknadsskjema – Digital markedsføring og salgsledelse | Kristiania</title>
+<link rel="preconnect" href="https://www.kristiania.no">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikBold.4f49c33873a6d7f571f8.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikMedium.94982326f74c637ac5ec.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikSemibold.6670d77b61a5fc45b31e.woff" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://www.kristiania.no/dist/GraphikRegular.7e9a488b4eb0442bc744.woff" as="font" crossorigin="anonymous">
+<style>
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikRegular.7e9a488b4eb0442bc744.woff') format('woff'); font-weight: 400; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikMedium.94982326f74c637ac5ec.woff') format('woff'); font-weight: 500; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikSemibold.6670d77b61a5fc45b31e.woff') format('woff'); font-weight: 600; }
+@font-face { font-family: 'Graphik'; src: url('https://www.kristiania.no/dist/GraphikBold.4f49c33873a6d7f571f8.woff') format('woff'); font-weight: 700; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Graphik', sans-serif;
+  font-weight: 400;
+  color: #121212;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* ── Topbar (reuse from existing pages) ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1070;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  height: 72px;
+}
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-logo img { display: block; height: 36px; }
+.topbar-nav { display: flex; align-items: center; gap: 32px; }
+.topbar-nav a {
+  font-size: 15px;
+  font-weight: 500;
+  color: #121212;
+  text-decoration: none;
+}
+.topbar-nav a:hover { text-decoration: underline; }
+.topbar-icons { display: flex; align-items: center; gap: 16px; }
+.topbar-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+.topbar-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #121212;
+  text-decoration: none;
+  cursor: pointer;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Page layout ── */
+.checkout-page {
+  min-height: calc(100vh - 72px);
+}
+
+/* Mobile sticky sammendrag bar */
+.sammendrag-bar {
+  display: none;
+  position: sticky;
+  top: 72px;
+  z-index: 100;
+  background: #fffbf8;
+  border-top: 1px solid #f9ccd2;
+  border-bottom: 1px solid #f9ccd2;
+  padding: 0 20px;
+  height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.sammendrag-bar-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4e0000;
+  line-height: 24px;
+}
+.sammendrag-bar-chevron {
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.sammendrag-bar.open .sammendrag-bar-chevron {
+  transform: rotate(180deg);
+}
+
+/* Mobile sammendrag dropdown */
+.sammendrag-dropdown {
+  display: none;
+  background: #fffbf8;
+  border-bottom: 1px solid #f9ccd2;
+  padding: 16px 20px;
+}
+.sammendrag-dropdown.open { display: block; }
+
+/* ── Grid layout ── */
+.checkout-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 32px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ── Form column ── */
+.form-col {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.form-section {
+  padding: 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.form-section:last-child { border-bottom: none; }
+
+.form-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #4e0000;
+  line-height: 24px;
+}
+
+.section-link {
+  font-size: 12px;
+  color: #06f;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ── Login area ── */
+.login-section {
+  padding: 24px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: #06f;
+  color: #fff;
+  font-family: 'Graphik', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: #0052d4; }
+
+.eller-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+.eller-line {
+  flex: 1;
+  height: 1px;
+  background: #c7c8ca;
+}
+.eller-text {
+  font-size: 12px;
+  color: #3f3f3f;
+  white-space: nowrap;
+}
+
+/* ── Form fields ── */
+.field {
+  border: 1px solid #c7c8ca;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  color: #3f3f3f;
+  background: #fff;
+  width: 100%;
+  cursor: text;
+  line-height: 17.5px;
+}
+
+.field-group {
+  border: 1px solid #c7c8ca;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field-group-label {
+  font-size: 12px;
+  color: #3f3f3f;
+  line-height: 17.5px;
+}
+.field-group-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #121212;
+  line-height: 17.5px;
+}
+
+.field-group-select {
+  border: 1px solid #c7c8ca;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.field-error {
+  border: 1px solid #b60202;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  background: #fffbf8;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field-error-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #121212;
+  line-height: 17.5px;
+}
+.field-error-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #b60202;
+  line-height: 17.5px;
+}
+.error-hint {
+  font-size: 12px;
+  color: #4e0000;
+  line-height: 17.5px;
+}
+
+.fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Checkbox row */
+.checkbox-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.checkbox-box {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #c7c8ca;
+  border-radius: 3px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.checkbox-box.checked {
+  background: #06f;
+  border-color: #06f;
+}
+.checkbox-label {
+  font-size: 14px;
+  color: #121212;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+/* ── Payment section ── */
+.payment-info-box {
+  background: #fffbf8;
+  border: 1px solid #f9ccd2;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.payment-info-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #121212;
+  line-height: 17.5px;
+}
+.emner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.emner-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4e0000;
+  line-height: 17.5px;
+}
+.emner-count {
+  font-size: 12px;
+  color: #4e0000;
+  line-height: 17.5px;
+}
+
+/* Radio options */
+.radio-group {
+  border: 1px solid #c7c8ca;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-bottom: 1px solid #c7c8ca;
+  cursor: pointer;
+}
+.radio-option:last-child { border-bottom: none; }
+.radio-option:hover { background: #fafafa; }
+.radio-circle {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #c7c8ca;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.radio-circle.selected {
+  border-color: #06f;
+}
+.radio-circle.selected::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #06f;
+  border-radius: 50%;
+}
+.radio-text {
+  font-size: 14px;
+  color: #3f3f3f;
+  line-height: 17.5px;
+}
+
+.payment-footnote {
+  font-size: 12px;
+  color: #3f3f3f;
+  line-height: 17.5px;
+}
+
+.rabattkode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #c7c8ca;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3f3f3f;
+  cursor: pointer;
+  font-family: 'Graphik', sans-serif;
+}
+.rabattkode-btn:hover { background: #f5f5f5; }
+
+/* ── Send søknaden button section ── */
+.form-submit-section {
+  padding: 24px;
+  background: #fff;
+}
+
+/* ── Summary column (desktop) ── */
+.summary-col {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  position: sticky;
+  top: 112px;
+}
+
+.summary-header {
+  background: #fffbf8;
+  border-bottom: 1px solid #f9ccd2;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.summary-header-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4e0000;
+  line-height: 24px;
+}
+
+.summary-body {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-program-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #121212;
+  line-height: 22px;
+}
+.summary-program-meta {
+  font-size: 13px;
+  color: #3f3f3f;
+  margin-top: 4px;
+  line-height: 18px;
+}
+.summary-divider {
+  height: 1px;
+  background: #e8e8e8;
+}
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.summary-row-label {
+  font-size: 14px;
+  color: #3f3f3f;
+}
+.summary-row-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #121212;
+}
+.summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid #e8e8e8;
+}
+.summary-total-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #121212;
+}
+.summary-total-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4e0000;
+}
+.summary-footnote {
+  font-size: 12px;
+  color: #3f3f3f;
+  line-height: 17.5px;
+  text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1023px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+  .summary-col {
+    display: none;
+  }
+  .sammendrag-bar {
+    display: flex;
+  }
+  .topbar-nav { display: none; }
+}
+
+@media (max-width: 600px) {
+  .checkout-grid { padding: 0; gap: 0; }
+  .form-col { border-radius: 0; }
+  .form-section { padding: 24px 16px; }
+  .login-section { padding: 16px 16px; }
+  .form-submit-section { padding: 16px; }
+  .topbar-inner { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="javascript:history.back()" class="topbar-back" aria-label="Tilbake">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Tilbake
+    </a>
+    <a href="../index.html" class="topbar-logo">
+      <img src="../topbar/Kristiania_logo_22_sort.svg" height="36" alt="Kristiania logo">
+    </a>
+    <div class="topbar-icons">
+      <button class="topbar-icon-btn" aria-label="Min side">
+        <img src="../topbar/User.svg" width="24" height="24" alt="">
+      </button>
+      <button class="topbar-icon-btn" aria-label="Søk">
+        <img src="../topbar/search.svg" width="24" height="24" alt="">
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="checkout-page">
+
+  <!-- Mobile: sticky sammendrag bar -->
+  <div class="sammendrag-bar" id="sammendragBar" onclick="toggleSammendrag()">
+    <span class="sammendrag-bar-label">Sammendrag av søknad</span>
+    <svg class="sammendrag-bar-chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M6 9l6 6 6-6" stroke="#4e0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Mobile sammendrag dropdown -->
+  <div class="sammendrag-dropdown" id="sammendragDropdown">
+    <div style="font-weight:500;font-size:15px;margin-bottom:4px;">Digital markedsføring og salgsledelse</div>
+    <div style="font-size:13px;color:#3f3f3f;margin-bottom:16px;">Bachelor · 3 år · Oslo / Bergen</div>
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;">
+      <span style="color:#3f3f3f;">Studieavgift per semester</span>
+      <span style="font-weight:500;">12 700 kr</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;">
+      <span style="color:#3f3f3f;">4 emner</span>
+      <span style="font-weight:500;">50 800 kr</span>
+    </div>
+    <div style="height:1px;background:#e8e8e8;margin:12px 0;"></div>
+    <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:600;">
+      <span>Totalt per semester</span>
+      <span style="color:#4e0000;">50 800 kr</span>
+    </div>
+  </div>
+
+  <div class="checkout-grid">
+
+    <!-- ── Left: Form ── -->
+    <div>
+      <!-- Login -->
+      <div class="form-col">
+        <div class="login-section">
+          <button class="btn-primary">Logg inn på Kristiania</button>
+          <div class="eller-row">
+            <div class="eller-line"></div>
+            <span class="eller-text">ELLER</span>
+            <div class="eller-line"></div>
+          </div>
+        </div>
+
+        <!-- Kontakt -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <h2 class="section-title">Kontakt</h2>
+            <span class="section-link">Hent personopplysninger fra telefonnummer</span>
+          </div>
+
+          <div class="field-group">
+            <div class="field-group-label">Telefonnummer</div>
+            <div class="field-group-value">+47 99 31 08 10</div>
+          </div>
+
+          <div class="field" style="color:#3f3f3f;">E-postadresse</div>
+
+          <div class="checkbox-row">
+            <div class="checkbox-wrap">
+              <div class="checkbox-box checked" onclick="this.classList.toggle('checked')">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                  <path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <span class="checkbox-label">En studierådgiver kan kontakte meg hvis det er nødvendig for å følge opp søknaden min</span>
+          </div>
+        </div>
+
+        <!-- Personopplysninger -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <h2 class="section-title">Personopplysninger</h2>
+          </div>
+
+          <div>
+            <div class="field-error">
+              <div class="field-error-label">Fødselsnummer (eventuelt D-nummer)</div>
+              <div class="field-error-value">123456 78910</div>
+            </div>
+            <div class="error-hint" style="margin-top:4px;">Fyll inn et gyldig fødselsnummer for å gå videre</div>
+          </div>
+
+          <div class="field" style="color:#3f3f3f;">Fornavn og mellomnavn</div>
+          <div class="field" style="color:#3f3f3f;">Etternavn</div>
+
+          <div class="field-group-select">
+            <div>
+              <div class="field-group-label">Språk</div>
+              <div class="field-group-value">Norsk</div>
+            </div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M6 9l6 6 6-6" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Adresse -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <h2 class="section-title">Adresse</h2>
+          </div>
+
+          <div class="field-group">
+            <div class="field-group-label">Gate og husnummer</div>
+            <div class="field-group-value">Akersveien 24F</div>
+          </div>
+
+          <div class="fields-row">
+            <div class="field" style="color:#3f3f3f;">Postnummer</div>
+            <div class="field" style="color:#3f3f3f;">Poststed</div>
+          </div>
+        </div>
+
+        <!-- Betaling -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <h2 class="section-title">Betaling</h2>
+          </div>
+
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#4e0000;margin-bottom:8px;">Studieprogram</div>
+            <div class="payment-info-box">
+              <div class="payment-info-title">Faktureres per semester</div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#3f3f3f" stroke-width="1.5"/>
+                <path d="M12 8v4M12 16h.01" stroke="#3f3f3f" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <div class="emner-header" style="margin-bottom:8px;">
+              <span class="emner-label">Emner</span>
+              <span class="emner-count">4 emner • 50 800 kr</span>
+            </div>
+
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="betaling" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Kortbetaling</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="betaling" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Avdrag</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="betaling" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Faktura</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="betaling" style="display:none;" onchange="updateRadio(this)">
+                <div class="radio-circle"></div>
+                <span class="radio-text">Arbeidsgiver eller NAV betaler</span>
+              </label>
+            </div>
+
+            <div class="payment-footnote" style="margin-top:8px;">Alltid 14 dager angrerett. Alle transaksjoner er sikre og krypterte.</div>
+          </div>
+
+          <button class="rabattkode-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" stroke="#3f3f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="7" cy="7" r="1" fill="#3f3f3f"/>
+            </svg>
+            Rabattkode
+          </button>
+        </div>
+
+        <!-- Send søknaden -->
+        <div class="form-submit-section">
+          <button class="btn-primary">Send søknaden</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right: Summary (desktop) ── -->
+    <aside class="summary-col">
+      <div class="summary-header" onclick="toggleDesktopSummary()">
+        <span class="summary-header-label">Sammendrag av søknad</span>
+        <svg id="desktopChevron" width="24" height="24" viewBox="0 0 24 24" fill="none" style="transition:transform .2s;transform:rotate(180deg);">
+          <path d="M6 9l6 6 6-6" stroke="#4e0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="summary-body" id="desktopSummaryBody">
+        <div>
+          <div class="summary-program-name">Digital markedsføring og salgsledelse</div>
+          <div class="summary-program-meta">Bachelor · 3 år · Oslo / Bergen · Høst 2026</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row">
+          <span class="summary-row-label">Studieavgift per semester</span>
+          <span class="summary-row-value">12 700 kr</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-row-label">4 emner</span>
+          <span class="summary-row-value">50 800 kr</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row">
+          <span class="summary-row-label" style="font-weight:500;color:#4e0000;">Studieprogram</span>
+        </div>
+        <div style="background:#fffbf8;border:1px solid #f9ccd2;border-radius:8px;padding:12px;">
+          <div style="font-size:14px;font-weight:500;margin-bottom:4px;">Faktureres per semester</div>
+          <div style="font-size:13px;color:#3f3f3f;">Digital markedsføring og salgsledelse</div>
+        </div>
+        <div class="summary-total">
+          <span class="summary-total-label">Totalt per semester</span>
+          <span class="summary-total-value">50 800 kr</span>
+        </div>
+        <div class="summary-footnote">Alltid 14 dager angrerett.<br>Alle transaksjoner er sikre og krypterte.</div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<script>
+function toggleSammendrag() {
+  var bar = document.getElementById('sammendragBar');
+  var dropdown = document.getElementById('sammendragDropdown');
+  bar.classList.toggle('open');
+  dropdown.classList.toggle('open');
+}
+
+function toggleDesktopSummary() {
+  var body = document.getElementById('desktopSummaryBody');
+  var chevron = document.getElementById('desktopChevron');
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'flex';
+  chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+function updateRadio(input) {
+  var options = document.querySelectorAll('.radio-option');
+  options.forEach(function(opt) {
+    var circle = opt.querySelector('.radio-circle');
+    circle.classList.remove('selected');
+  });
+  var circle = input.closest('.radio-option').querySelector('.radio-circle');
+  circle.classList.add('selected');
+}
+</script>
+
+</body>
+</html>
