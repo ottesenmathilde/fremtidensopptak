@@ -54,7 +54,60 @@ var BASKET_CSS = '\
 .hk-city-popover h4{margin:0 0 12px;font-size:15px;font-weight:700;color:#111}\
 .hk-city-btn{display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:6px;border:1.5px solid #ddd;border-radius:8px;background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}\
 .hk-city-btn:hover{border-color:#4e0000;background:#faf5f5}\
+#lagre-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.39);z-index:1400}\
+#lagre-modal-backdrop.open{display:block}\
+#lagre-modal{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:460px;background:#f3f3f3;border-radius:12px 12px 0 0;z-index:1401;padding-top:80px;transition:transform .35s cubic-bezier(.4,0,.2,1)}\
+#lagre-modal.open{transform:translateX(-50%) translateY(0)}\
+.lagre-modal-body{display:flex;flex-direction:column;gap:32px;padding:0 32px 32px;overflow-y:auto}\
+.lagre-modal-close{position:absolute;top:24px;left:24px;width:32px;height:32px;background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}\
+.lagre-modal-title{font-size:32px;font-weight:600;color:#000;line-height:1.38;font-family:inherit}\
+.lagre-modal-desc{font-size:16px;color:#212121;line-height:1.5}\
+.lagre-modal-fields{display:flex;flex-direction:column;gap:16px}\
+.lagre-modal-label{font-size:14px;font-weight:500;color:#0a0a0a;display:block;margin-bottom:8px}\
+.lagre-modal-input{width:100%;height:44px;background:#fff;border:1px solid rgba(0,0,0,.15);border-radius:8px;padding:0 12px;font-size:15px;font-family:inherit;outline:none}\
+.lagre-modal-input:focus{border-color:#030712}\
+.lagre-modal-or{text-align:center;font-size:14px;font-style:italic;color:#4b4b4b;font-weight:500}\
+.lagre-modal-privacy{font-size:14px;color:rgba(10,10,10,.67);line-height:1.5}\
+.lagre-modal-privacy a{color:#030712;text-decoration:underline}\
+.lagre-modal-btn{width:100%;padding:16px;background:#030712;color:#fff;border:none;border-radius:8px;font-size:20px;font-weight:600;cursor:pointer;font-family:inherit}\
+.lagre-modal-btn:hover{background:#1a1a2e}\
 ';
+
+/* ─── Lagre til senere modal ─── */
+function openLagreTilSenereModal() {
+  if (!document.getElementById('lagre-modal')) {
+    var html = '<div id="lagre-modal-backdrop" onclick="closeLagreModal()"></div>'
+      + '<div id="lagre-modal" role="dialog" aria-modal="true" aria-label="Lagre til senere">'
+      + '<button class="lagre-modal-close" onclick="closeLagreModal()" aria-label="Lukk">'
+      + '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">'
+      + '<circle cx="12" cy="12" r="11" stroke="#121212" stroke-width="1.5"/>'
+      + '<path d="M8 8l8 8M16 8l-8 8" stroke="#121212" stroke-width="1.5" stroke-linecap="round"/>'
+      + '</svg></button>'
+      + '<div class="lagre-modal-body">'
+      + '<h2 class="lagre-modal-title">Lagre til senere</h2>'
+      + '<p class="lagre-modal-desc">Du kan lagre søknaden og finne tilbake til den senere.</p>'
+      + '<div class="lagre-modal-fields">'
+      + '<div><label class="lagre-modal-label">E-postadresse</label><input class="lagre-modal-input" type="email" placeholder="" /></div>'
+      + '<p class="lagre-modal-or">eller</p>'
+      + '<div><label class="lagre-modal-label">Telefonnummer</label><input class="lagre-modal-input" type="tel" placeholder="" /></div>'
+      + '</div>'
+      + '<p class="lagre-modal-privacy">Informasjonen blir lagret og brukt i henhold til <a href="#">Personvernerklæringen.</a></p>'
+      + '<button class="lagre-modal-btn" onclick="closeLagreModal()">Lagre søknad</button>'
+      + '</div></div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+  requestAnimationFrame(function() {
+    document.getElementById('lagre-modal-backdrop').classList.add('open');
+    document.getElementById('lagre-modal').classList.add('open');
+  });
+}
+
+function closeLagreModal() {
+  var modal = document.getElementById('lagre-modal');
+  var backdrop = document.getElementById('lagre-modal-backdrop');
+  if (modal) modal.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+}
 
 /* ─── CRUD ─── */
 function getBasket() {
@@ -197,7 +250,7 @@ function injectSidebarPanel() {
     + '</button></div>'
     + '<div class="hk-body" id="hk-body"></div>'
     + '<div class="hk-footer" id="hk-footer" style="display:none">'
-    + '<button class="hk-btn-outline" onclick="alert(\'Lagret til senere!\')">Lagre til senere</button>'
+    + '<button class="hk-btn-outline" onclick="openLagreTilSenereModal()">Lagre til senere</button>'
     + '<a href="' + getSokSkjemaPath() + '" class="hk-btn-primary">Gå videre med søknaden</a>'
     + '</div></div>';
   document.body.insertAdjacentHTML('beforeend', html);
