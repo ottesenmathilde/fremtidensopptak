@@ -49,7 +49,7 @@ var BASKET_CSS = '\
 .hk-btn-outline:hover{background:#faf5f5}\
 .hk-btn-primary{display:block;width:100%;text-align:center;padding:13px;border-radius:30px;font-size:14px;font-weight:700;cursor:pointer;border:none;background:#1a3dc2;color:#fff;text-decoration:none;font-family:inherit}\
 .hk-btn-primary:hover{background:#1533a8}\
-.hk-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:48px 24px;color:#888}\
+.hk-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;padding:64px 16px 16px;color:#888}\
 .hk-city-popover{position:fixed;z-index:1300;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:16px;min-width:200px}\
 .hk-city-popover h4{margin:0 0 12px;font-size:15px;font-weight:700;color:#111}\
 .hk-city-btn{display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:6px;border:1.5px solid #ddd;border-radius:8px;background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}\
@@ -241,14 +241,18 @@ function renderBasketPanel() {
   if (!body) return;
 
   var count = getBasketCount();
-  if (title) title.textContent = 'Søknader (' + count + ')';
-
   var totalItems = b.programs.length + b.looseEmner.length;
+  if (title) title.textContent = totalItems === 0 ? 'Søknader' : 'Søknader (' + count + ')';
+
   if (totalItems === 0) {
     body.innerHTML = '<div class="hk-empty">'
-      + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="#ccc" stroke-width="1.5" stroke-linecap="round"/><path d="M16 10a4 4 0 01-8 0" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      + '<p style="font-size:15px;font-weight:600;margin:0;color:#555;">Ingen studier valgt ennå</p>'
-      + '<p style="font-size:13px;margin:0;color:#999;">Trykk «Søk nå» på et studieprogram for å legge det til.</p>'
+      + '<div style="background:#f4ebe6;border-radius:88px;padding:16px;display:inline-flex;align-items:center;justify-content:center;">'
+      + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#121212"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#121212"/></svg>'
+      + '</div>'
+      + '<a href="studietilbud _ Kristiania.html" style="display:block;width:100%;text-align:center;padding:12px;border-radius:40px;font-size:16px;font-weight:500;cursor:pointer;border:1px solid #4e0000;color:#4e0000;background:none;font-family:inherit;text-decoration:none;">Legg til studier eller emner</a>'
+      + '<div style="border-top:1px solid #e3e3e3;width:100%;"></div>'
+      + '<p style="font-size:16px;font-weight:500;margin:0;color:#4e0000;">Logg inn for å finne påbegynte søknader</p>'
+      + '<button onclick="closeSoknaderPanel()" style="display:block;width:100%;text-align:center;padding:12px;border-radius:40px;font-size:16px;font-weight:600;cursor:pointer;border:none;background:#06f;color:#fff;font-family:inherit;">Logg inn</button>'
       + '</div>';
     if (footer) footer.style.display = 'none';
     return;

@@ -208,10 +208,10 @@ cfg: { // Application Insights Configuration
 .sp-wrap{display:flex;gap:24px;align-items:flex-start;font-family:inherit}
 .sp-main{flex:1;min-width:0}
 .sp-sidebar{width:300px;flex-shrink:0;position:sticky;top:100px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.sp-tabs-card{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:4px}
-.sp-tabs{display:flex;border-bottom:1.5px solid #e5e5e5;background:#fff}
-.sp-tab{flex:1;padding:16px 8px;border:none;background:none;cursor:pointer;font-size:15px;font-weight:500;color:#444;border-bottom:3px solid transparent;transition:all .15s;margin-bottom:-1.5px}
-.sp-tab[aria-selected=true]{color:#111;border-bottom-color:#111;font-weight:700}
+.sp-tabs-card{background:#f0f0f0;border-radius:12px;overflow:hidden;margin-bottom:4px}
+.sp-tabs{display:flex;gap:0;background:#f0f0f0;padding:0;border-radius:12px;overflow:hidden;border:1.5px solid #e0e0e0}
+.sp-tab{flex:1;padding:14px 8px;border:none;background:transparent;cursor:pointer;font-size:15px;font-weight:500;color:#444;transition:all .15s;border-radius:0;text-align:center}
+.sp-tab[data-selected=true]{color:#111;background:#fff;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .sp-tab-desc{color:#555;font-size:14px;text-align:center;padding:20px 24px 8px}
 .sp-panel{display:none}
 .sp-panel.active{display:block}
@@ -219,10 +219,9 @@ cfg: { // Application Insights Configuration
 .sp-sem-header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 12px}
 .sp-sem-header h4{font-size:18px;font-weight:700;margin:0}
 .sp-sem-header span{font-size:13px;color:#555;font-weight:600}
-.sp-hr{border:none;border-top:1px solid #ebebeb;margin:0 24px}
+.sp-hr{display:none}
 .sp-course-row{display:flex;align-items:center;gap:12px;padding:14px 24px}
-.sp-course-row+.sp-hr{margin:0 24px}
-.sp-course-name{flex:1;color:#111;text-decoration:underline;font-size:14px;text-underline-offset:2px}
+.sp-course-name{color:#111;text-decoration:none;font-size:14px;margin-right:auto}
 .sp-badge{background:#fff;border:1.5px solid #111;border-radius:20px;padding:4px 12px;font-size:13px;white-space:nowrap;font-weight:500}
 .sp-price{font-size:13px;color:#333;white-space:nowrap;min-width:80px;text-align:right}
 .sp-add-btn{width:34px;height:34px;background:#111;color:#fff;border:none;border-radius:8px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;line-height:1;padding-bottom:2px}
@@ -245,20 +244,36 @@ cfg: { // Application Insights Configuration
 .sp-sum-total strong{display:block;font-size:22px;font-weight:700;margin-top:2px}
 .sp-gaa-videre{background:#7d6520;color:#fff;border:none;border-radius:8px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
 .sp-gaa-videre:hover{background:#9a7d28}
+/* Sticky mobile bottom bar */
+.sp-mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:1050;background:#111;color:#fff;padding:16px 20px;align-items:center;justify-content:space-between}
+.sp-mobile-bar-info{font-size:13px;font-weight:600;line-height:1.4}
+.sp-mobile-bar-info strong{display:block;font-size:18px;font-weight:700;margin-top:2px}
+.sp-mobile-bar-btn{background:#7d6520;color:#fff;border:none;border-radius:8px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.sp-mobile-bar-btn:hover{background:#9a7d28}
+@media(max-width:860px){
+  .sp-wrap{flex-direction:column}
+  .sp-sidebar{display:none}
+  .sp-mobile-bar{display:flex}
+  .sp-outer{padding:24px 0 80px}
+  .sp-inner{padding:0 16px}
+  .sp-sem-header{padding:16px 20px 10px}
+  .sp-course-row{padding:12px 20px;gap:10px}
+  .sp-hr{margin:0 20px}
+}
 </style>
 
 <section id="emner-seksjon" class="sp-outer">
 <div class="sp-inner"><div style="text-align:center;margin-bottom:32px"><h2 style="font-size:36px;font-weight:900">Studieplanlegger</h2></div>
 <div class="sp-wrap">
   <div class="sp-main">
-    <div class="sp-tabs-card"><div class="sp-tabs" role="tablist">
-      <button class="sp-tab" role="tab" aria-selected="true"  data-panel="sp-deltid">Deltid</button>
-      <button class="sp-tab" role="tab" aria-selected="false" data-panel="sp-heltid">Heltid</button>
-      <button class="sp-tab" role="tab" aria-selected="false" data-panel="sp-enkeltemne">Enkeltemne</button>
+    <div class="sp-tabs-card"><div class="sp-tabs">
+      <button class="sp-tab" data-selected="true"  data-panel="sp-heltid">Heltid</button>
+      <button class="sp-tab" data-selected="false" data-panel="sp-deltid">Deltid</button>
+      <button class="sp-tab" data-selected="false" data-panel="sp-enkeltemne">Enkeltemne</button>
     </div></div>
 
     <!-- DELTID: 2 emner per semester -->
-    <div id="sp-deltid" class="sp-panel active">
+    <div id="sp-deltid" class="sp-panel">
       <p class="sp-tab-desc">Velg deltid for et roligere studietempo – 2 emner per semester</p>
 
       <div class="sp-semester">
@@ -365,7 +380,7 @@ cfg: { // Application Insights Configuration
     </div>
 
     <!-- HELTID: 4 emner per semester (sem 5 har 3, sem 6 har 1) -->
-    <div id="sp-heltid" class="sp-panel">
+    <div id="sp-heltid" class="sp-panel active">
       <p class="sp-tab-desc">Velg heltid for raskere progresjon – 4 emner per semester</p>
 
       <div class="sp-semester">
@@ -551,6 +566,12 @@ cfg: { // Application Insights Configuration
 </div></div>
 </section>
 
+<!-- Sticky mobile bottom bar -->
+<div class="sp-mobile-bar" id="sp-mobile-bar">
+  <div class="sp-mobile-bar-info">Totalt <span id="sp-mob-pts">0</span> studiepoeng<strong id="sp-mob-price">0</strong></div>
+  <button class="sp-mobile-bar-btn sp-gaa-videre">Utvid innholdet</button>
+</div>
+
 
 <section class="Richtext__block"></section><div class="Richtext__wrapper"><div class="PageLayout__grid"><div class="Richtext__content PageLayout__content">
 <ul class="Richtext__ul">
@@ -664,10 +685,11 @@ cfg: { // Application Insights Configuration
 var spCart = {};
 
 function spTab(btn, panelId) {
-  document.querySelectorAll('.sp-tab').forEach(function(t) { t.setAttribute('aria-selected', 'false'); });
+  document.querySelectorAll('.sp-tab').forEach(function(t) { t.setAttribute('data-selected', 'false'); });
   document.querySelectorAll('.sp-panel').forEach(function(p) { p.classList.remove('active'); });
-  btn.setAttribute('aria-selected', 'true');
-  document.getElementById(panelId).classList.add('active');
+  btn.setAttribute('data-selected', 'true');
+  var panel = document.getElementById(panelId);
+  if (panel) panel.classList.add('active');
 }
 
 function spAddCourse(btn) {
@@ -698,9 +720,14 @@ function spUpdateSummary() {
   if (!body || !empty) return;
   var keys = Object.keys(spCart);
   var totalPts = 0;
-  keys.forEach(function(k) { totalPts += spCart[k].pts; });
+  var totalPrice = 0;
+  keys.forEach(function(k) { totalPts += spCart[k].pts; totalPrice += (spCart[k].price || 0); });
   var ptsDisp = totalPts % 1 === 0 ? totalPts : totalPts.toFixed(1).replace('.', ',');
   document.getElementById('sp-total-pts').textContent = ptsDisp;
+  var mobPts = document.getElementById('sp-mob-pts');
+  var mobPrice = document.getElementById('sp-mob-price');
+  if (mobPts) mobPts.textContent = ptsDisp;
+  if (mobPrice) mobPrice.textContent = 'kr ' + totalPrice.toLocaleString('nb-NO');
   if (keys.length === 0) {
     empty.style.display = 'block';
     body.querySelectorAll('.sp-sum-item').forEach(function(i) { i.remove(); });
