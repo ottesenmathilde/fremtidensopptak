@@ -290,7 +290,7 @@ function renderCampusCard(prog) {
 function renderNettCard(prog) {
   var emnerCount = prog.emner ? prog.emner.length : 0;
   var totalPts = 0;
-  if (prog.emner) prog.emner.forEach(function(e) { totalPts += e.pts || 0; });
+  if (prog.emner) prog.emner.forEach(function(e) { totalPts += parseFloat(e.pts) || 0; });
   var ptsStr = totalPts % 1 === 0 ? totalPts : totalPts.toFixed(1).replace('.', ',');
   var meta = (prog.level || '') + ' · ' + ptsStr + ' studiepoeng · ' + emnerCount + ' emner';
 

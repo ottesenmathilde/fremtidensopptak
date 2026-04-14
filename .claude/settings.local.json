@@ -47,7 +47,9 @@
       "Bash(python3 -)",
       "Bash(grep -rl \"basket.js\" studier/*.html)",
       "Bash(grep -rl \"__addThisProgram\" studier/*.html)",
-      "Bash(python3 cleanup_studier.py)"
+      "Bash(python3 cleanup_studier.py)",
+      "Bash(perl -i -0pe 's/<script[^>]*otBannerSdk[^>]*><\\\\/script>//gs' index.html \"studietilbud _ Kristiania.html\" \"studier/Digital markedsføring og salgsledelse - Bachelor _ Kristiania.html\" \"studier/Frontend-utvikling - Bli frontend-utvikler på 1 år.html\" \"studier/Administrasjon og ledelse - Bachelor \\(nettstudie\\).html\")",
+      "Bash(perl -i -0pe 's/<style id=\"onetrust-style\">.*?<\\\\/style>//gs' index.html \"studietilbud _ Kristiania.html\" \"studier/Digital markedsføring og salgsledelse - Bachelor _ Kristiania.html\" \"studier/Frontend-utvikling - Bli frontend-utvikler på 1 år.html\" \"studier/Administrasjon og ledelse - Bachelor \\(nettstudie\\).html\")"
     ]
   }
 }

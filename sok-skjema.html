@@ -654,11 +654,12 @@ function renderCheckoutSummary() {
     return;
   }
 
-  // ── Studieprogram section ──
+  // ── Studieprogram section (only campus-based programs) ──
+  var campusPrograms = programs.filter(function(p) { return p.type !== 'nett'; });
   var progHtml = '';
-  if (programs.length > 0) {
+  if (campusPrograms.length > 0) {
     progHtml += '<div style="font-size:13px;font-weight:600;color:#4e0000;text-transform:uppercase;letter-spacing:.5px;">Studieprogram</div>';
-    programs.forEach(function(p) {
+    campusPrograms.forEach(function(p) {
       var badges = '';
       if (p.startSemester) badges += '<span style="background:#f0f0f0;border-radius:4px;padding:2px 8px;font-size:11px;color:#555;">' + p.startSemester + '</span>';
       if (p.city) badges += '<span style="background:#ffecd2;border-radius:4px;padding:2px 8px;font-size:11px;color:#7a4a00;">' + p.city + '</span>';
@@ -709,6 +710,7 @@ function renderCheckoutSummary() {
           + (e.code ? '<span class="summary-emne-code">#' + e.code + ' &middot; ' + (e.pts || '7,5') + ' studiepoeng</span>' : '')
           + '<span class="summary-emne-name">' + e.name + '</span>'
           + '</div>'
+          + (e.startDate ? '<span class="summary-emne-badge" style="background:#e8f4e8;color:#2d6a2d;">Oppstart ' + e.startDate + '</span>' : '')
           + '<span class="summary-emne-badge">Nett</span>'
           + '</div>';
       });
@@ -729,6 +731,7 @@ function renderCheckoutSummary() {
           + (e.code ? '<span class="summary-emne-code">#' + e.code + ' &middot; ' + (e.pts || '7,5') + ' studiepoeng</span>' : '')
           + '<span class="summary-emne-name">' + e.name + '</span>'
           + '</div>'
+          + (e.startDate ? '<span class="summary-emne-badge" style="background:#e8f4e8;color:#2d6a2d;">Oppstart ' + e.startDate + '</span>' : '')
           + '<span class="summary-emne-badge">Nett</span>'
           + '</div>';
       });
@@ -951,8 +954,9 @@ function renderPaymentPrices() {
   var programs = b.programs || [];
   var loose = b.looseEmner || [];
 
-  // Show studieprogram faktura section if any programs exist
-  if (programs.length > 0) {
+  // Show studieprogram faktura section only for campus-based programs
+  var hasCampus = programs.some(function(p) { return p.type !== 'nett'; });
+  if (hasCampus) {
     spSection.style.display = 'block';
   } else {
     spSection.style.display = 'none';
