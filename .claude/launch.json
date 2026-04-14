@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "Kristiania Prototype",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "-l", "3000", "."],
+      "runtimeExecutable": "/usr/local/bin/python3",
+      "runtimeArgs": ["/tmp/serve_kristiania.py"],
       "port": 3000
     }
   ]

@@ -54,10 +54,10 @@ var BASKET_CSS = '\
 .hk-city-popover h4{margin:0 0 12px;font-size:15px;font-weight:700;color:#111}\
 .hk-city-btn{display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:6px;border:1.5px solid #ddd;border-radius:8px;background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}\
 .hk-city-btn:hover{border-color:#4e0000;background:#faf5f5}\
-#lagre-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.39);z-index:1400}\
+#lagre-modal-backdrop{display:none;position:absolute;inset:0;background:rgba(0,0,0,.39);z-index:10}\
 #lagre-modal-backdrop.open{display:block}\
-#lagre-modal{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:460px;background:#f3f3f3;border-radius:12px 12px 0 0;z-index:1401;padding-top:80px;transition:transform .35s cubic-bezier(.4,0,.2,1)}\
-#lagre-modal.open{transform:translateX(-50%) translateY(0)}\
+#lagre-modal{position:absolute;bottom:0;left:0;right:0;background:#f3f3f3;border-radius:12px 12px 0 0;z-index:11;padding-top:80px;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}\
+#lagre-modal.open{transform:translateY(0)}\
 .lagre-modal-body{display:flex;flex-direction:column;gap:32px;padding:0 32px 32px;overflow-y:auto}\
 .lagre-modal-close{position:absolute;top:24px;left:24px;width:32px;height:32px;background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}\
 .lagre-modal-title{font-size:32px;font-weight:600;color:#000;line-height:1.38;font-family:inherit}\
@@ -69,12 +69,27 @@ var BASKET_CSS = '\
 .lagre-modal-or{text-align:center;font-size:14px;font-style:italic;color:#4b4b4b;font-weight:500}\
 .lagre-modal-privacy{font-size:14px;color:rgba(10,10,10,.67);line-height:1.5}\
 .lagre-modal-privacy a{color:#030712;text-decoration:underline}\
-.lagre-modal-btn{width:100%;padding:16px;background:#030712;color:#fff;border:none;border-radius:8px;font-size:20px;font-weight:600;cursor:pointer;font-family:inherit}\
-.lagre-modal-btn:hover{background:#1a1a2e}\
+.lagre-modal-btn{width:100%;padding:16px;background:#1a3dc2;color:#fff;border:none;border-radius:8px;font-size:20px;font-weight:600;cursor:pointer;font-family:inherit}\
+.lagre-modal-btn:hover{background:#1533a8}\
+#hk-save-form{display:none;flex-direction:column;gap:0;padding:16px 20px;flex-shrink:0}\
+#hk-save-form.open{display:flex}\
+#hk-save-fields{display:flex;flex-direction:column;gap:16px;width:100%}\
+.hk-save-desc{font-size:16px;color:#212121;line-height:1.5;margin:0}\
+.hk-save-input{width:100%;border:1px solid #c7c8ca;border-radius:8px;padding:16px;font-size:14px;color:#3f3f3f;font-family:inherit;outline:none}\
+.hk-save-input:focus{border-color:#06f}\
+.hk-save-privacy{font-size:14px;color:rgba(10,10,10,.67);line-height:1.5;margin:0}\
+.hk-save-privacy a{color:#030712;text-decoration:underline}\
+.hk-save-btn{width:100%;height:48px;background:#06f;color:#fff;border:none;border-radius:40px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit}\
+.hk-save-btn:hover{background:#0052cc}\
+.hk-save-receipt-box{display:flex;align-items:flex-start;gap:10px;background:#f0f5ff;border-radius:8px;padding:14px;margin-bottom:16px}\
+.hk-save-receipt-msg{font-size:14px;color:#212121;line-height:1.5;margin:0}\
+#hk-save-receipt .hk-btn-primary{display:block;text-align:center;text-decoration:none}\
 ';
 
 /* ─── Lagre til senere modal ─── */
 function openLagreTilSenereModal() {
+  var panel = document.getElementById('sok-panel');
+  if (!panel) return;
   if (!document.getElementById('lagre-modal')) {
     var html = '<div id="lagre-modal-backdrop" onclick="closeLagreModal()"></div>'
       + '<div id="lagre-modal" role="dialog" aria-modal="true" aria-label="Lagre til senere">'
@@ -88,13 +103,11 @@ function openLagreTilSenereModal() {
       + '<p class="lagre-modal-desc">Du kan lagre søknaden og finne tilbake til den senere.</p>'
       + '<div class="lagre-modal-fields">'
       + '<div><label class="lagre-modal-label">E-postadresse</label><input class="lagre-modal-input" type="email" placeholder="" /></div>'
-      + '<p class="lagre-modal-or">eller</p>'
-      + '<div><label class="lagre-modal-label">Telefonnummer</label><input class="lagre-modal-input" type="tel" placeholder="" /></div>'
       + '</div>'
       + '<p class="lagre-modal-privacy">Informasjonen blir lagret og brukt i henhold til <a href="#">Personvernerklæringen.</a></p>'
-      + '<button class="lagre-modal-btn" onclick="closeLagreModal()">Lagre søknad</button>'
+      + '<button class="lagre-modal-btn" onclick="showLagreSaveView()">Lagre søknad</button>'
       + '</div></div>';
-    document.body.insertAdjacentHTML('beforeend', html);
+    panel.insertAdjacentHTML('beforeend', html);
   }
   requestAnimationFrame(function() {
     document.getElementById('lagre-modal-backdrop').classList.add('open');
@@ -250,8 +263,23 @@ function injectSidebarPanel() {
     + '</button></div>'
     + '<div class="hk-body" id="hk-body"></div>'
     + '<div class="hk-footer" id="hk-footer" style="display:none">'
-    + '<button class="hk-btn-outline" onclick="openLagreTilSenereModal()">Lagre til senere</button>'
+    + '<button class="hk-btn-outline" onclick="showLagreSaveView()">Lagre til senere</button>'
     + '<a href="' + getSokSkjemaPath() + '" class="hk-btn-primary">Gå videre med søknaden</a>'
+    + '</div>'
+    + '<div id="hk-save-form">'
+    + '<div id="hk-save-fields">'
+    + '<p class="hk-save-desc">Du kan lagre søknaden og finne tilbake til den senere.</p>'
+    + '<input class="hk-save-input" id="hk-save-email" type="email" placeholder="E-postadresse" />'
+    + '<p class="hk-save-privacy">Informasjonen blir lagret og brukt i henhold til <a href="#">Personvernerklæringen.</a></p>'
+    + '<button class="hk-save-btn" onclick="submitLagreSave()">Lagre søknad</button>'
+    + '</div>'
+    + '<div id="hk-save-receipt" style="display:none">'
+    + '<div class="hk-save-receipt-box">'
+    + '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#06f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + '<p class="hk-save-receipt-msg">Søknaden er lagret! Vi sender deg en lenke på e-post.</p>'
+    + '</div>'
+    + '<a id="hk-save-continue" href="sok-skjema.html" class="hk-btn-primary">Gå videre med søknaden</a>'
+    + '</div>'
     + '</div></div>';
   document.body.insertAdjacentHTML('beforeend', html);
 }
@@ -276,7 +304,36 @@ function closeSoknaderPanel() {
   if (!panel) return;
   panel.style.transform = 'translateX(100%)';
   backdrop.style.opacity = '0';
-  setTimeout(function() { panel.style.display = 'none'; backdrop.style.display = 'none'; }, 350);
+  setTimeout(function() {
+    panel.style.display = 'none';
+    backdrop.style.display = 'none';
+    var saveForm = document.getElementById('hk-save-form');
+    if (saveForm) saveForm.classList.remove('open');
+    var fields = document.getElementById('hk-save-fields');
+    if (fields) fields.style.display = 'flex';
+    var receipt = document.getElementById('hk-save-receipt');
+    if (receipt) receipt.style.display = 'none';
+    var emailInput = document.getElementById('hk-save-email');
+    if (emailInput) emailInput.value = '';
+  }, 350);
+}
+
+function showLagreSaveView() {
+  var footer = document.getElementById('hk-footer');
+  var saveForm = document.getElementById('hk-save-form');
+  var fields = document.getElementById('hk-save-fields');
+  var receipt = document.getElementById('hk-save-receipt');
+  if (footer) footer.style.display = 'none';
+  if (fields) fields.style.display = 'flex';
+  if (receipt) receipt.style.display = 'none';
+  if (saveForm) saveForm.classList.add('open');
+}
+
+function submitLagreSave() {
+  var fields = document.getElementById('hk-save-fields');
+  var receipt = document.getElementById('hk-save-receipt');
+  if (fields) fields.style.display = 'none';
+  if (receipt) receipt.style.display = 'block';
 }
 
 /* ─── Trash SVG ─── */

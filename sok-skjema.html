@@ -307,10 +307,20 @@ body {
 }
 .btn-dark:hover { background: #333; }
 
+.mobile-summary-col {
+  display: none;
+  background: #fff; border-radius: 12px; overflow: hidden;
+}
+.mobile-summary-header {
+  background: #fffbf8; border-bottom: 1px solid #f9ccd2;
+  padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1023px) {
   .checkout-grid { grid-template-columns: 1fr; padding: 20px 16px; gap: 16px; }
   .summary-col { display: none; }
+  .mobile-summary-col { display: block; }
   .form-submit-section { display: block; }
 }
 @media (max-width: 600px) {
@@ -351,6 +361,20 @@ body {
 <!-- ════════ SKJEMA-SIDE ════════ -->
 <div class="checkout-page" id="checkoutPage">
   <div class="checkout-grid">
+
+    <!-- Mobile summary accordion (hidden on desktop) -->
+    <div class="mobile-summary-col">
+      <div class="mobile-summary-header" onclick="toggleMobileSummary()">
+        <span class="summary-header-label">Sammendrag av søknad</span>
+        <svg id="mobileSummaryChevron" width="24" height="24" viewBox="0 0 24 24" fill="none" style="transition:transform .2s;transform:rotate(180deg);">
+          <path d="M6 9l6 6 6-6" stroke="#4e0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="summary-body" id="mobileSummaryBody">
+        <div id="mobile-summary-programs" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div id="mobile-summary-emner" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
 
     <!-- Left: Form -->
     <div>
@@ -658,7 +682,10 @@ function renderCheckoutSummary() {
   var campusPrograms = programs.filter(function(p) { return p.type !== 'nett'; });
   var progHtml = '';
   if (campusPrograms.length > 0) {
-    progHtml += '<div style="font-size:13px;font-weight:600;color:#4e0000;text-transform:uppercase;letter-spacing:.5px;">Studieprogram</div>';
+    progHtml += '<div style="display:flex;align-items:center;justify-content:space-between;">'
+      + '<div style="font-size:13px;font-weight:600;color:#4e0000;text-transform:uppercase;letter-spacing:.5px;">Studieprogram</div>'
+      + '<div style="font-size:13px;color:#3f3f3f;">Faktureres per semester</div>'
+      + '</div>';
     campusPrograms.forEach(function(p) {
       var badges = '';
       if (p.startSemester) badges += '<span style="background:#f0f0f0;border-radius:4px;padding:2px 8px;font-size:11px;color:#555;">' + p.startSemester + '</span>';
@@ -671,6 +698,8 @@ function renderCheckoutSummary() {
     });
   }
   progEl.innerHTML = progHtml;
+  var mobileProgEl = document.getElementById('mobile-summary-programs');
+  if (mobileProgEl) mobileProgEl.innerHTML = progHtml;
 
   // ── Emner section ──
   // Collect all emner: from nett programs + loose

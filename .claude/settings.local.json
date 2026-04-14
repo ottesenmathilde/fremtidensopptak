@@ -49,7 +49,15 @@
       "Bash(grep -rl \"__addThisProgram\" studier/*.html)",
       "Bash(python3 cleanup_studier.py)",
       "Bash(perl -i -0pe 's/<script[^>]*otBannerSdk[^>]*><\\\\/script>//gs' index.html \"studietilbud _ Kristiania.html\" \"studier/Digital markedsføring og salgsledelse - Bachelor _ Kristiania.html\" \"studier/Frontend-utvikling - Bli frontend-utvikler på 1 år.html\" \"studier/Administrasjon og ledelse - Bachelor \\(nettstudie\\).html\")",
-      "Bash(perl -i -0pe 's/<style id=\"onetrust-style\">.*?<\\\\/style>//gs' index.html \"studietilbud _ Kristiania.html\" \"studier/Digital markedsføring og salgsledelse - Bachelor _ Kristiania.html\" \"studier/Frontend-utvikling - Bli frontend-utvikler på 1 år.html\" \"studier/Administrasjon og ledelse - Bachelor \\(nettstudie\\).html\")"
+      "Bash(perl -i -0pe 's/<style id=\"onetrust-style\">.*?<\\\\/style>//gs' index.html \"studietilbud _ Kristiania.html\" \"studier/Digital markedsføring og salgsledelse - Bachelor _ Kristiania.html\" \"studier/Frontend-utvikling - Bli frontend-utvikler på 1 år.html\" \"studier/Administrasjon og ledelse - Bachelor \\(nettstudie\\).html\")",
+      "Bash(xargs kill:*)",
+      "Bash(npx --yes http-server --version)",
+      "Bash(ruby --version)",
+      "Bash(chmod +x /Users/mathildeo/Desktop/fremtidensopptak/start-server.sh)",
+      "mcp__1d447907-2ab6-4a77-af86-aa7f8a16a14a__use_figma",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"Implementer Lagre til senere-modal:*)",
+      "Bash(git push:*)"
     ]
   }
 }
