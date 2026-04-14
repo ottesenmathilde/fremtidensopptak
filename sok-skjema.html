@@ -62,11 +62,11 @@ body {
 
 .btn-login {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  height: 48px; background: #111; color: #fff;
+  height: 48px; background: #06f; color: #fff;
   font-family: 'Graphik', sans-serif; font-size: 15px; font-weight: 600;
   border: none; border-radius: 40px; cursor: pointer; width: 100%; transition: background 0.15s;
 }
-.btn-login:hover { background: #333; }
+.btn-login:hover { background: #0052d4; }
 
 .eller-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
 .eller-line { flex: 1; height: 1px; background: #c7c8ca; }
@@ -215,11 +215,11 @@ body {
 /* ── Submit ── */
 .btn-primary {
   display: flex; align-items: center; justify-content: center;
-  height: 52px; background: #06f; color: #fff;
+  height: 52px; background: #c8233f; color: #fff;
   font-family: 'Graphik', sans-serif; font-size: 16px; font-weight: 600;
   border: none; border-radius: 40px; cursor: pointer; width: 100%; transition: background 0.15s;
 }
-.btn-primary:hover { background: #0052d4; }
+.btn-primary:hover { background: #a01c33; }
 .btn-primary:disabled { background: #b0b0b0; cursor: not-allowed; }
 
 .form-submit-section { display: none; padding: 24px; background: #fff; }
@@ -252,6 +252,20 @@ body {
 .summary-total-label { font-size: 16px; font-weight: 500; }
 .summary-total-value { font-size: 18px; font-weight: 600; color: #4e0000; }
 .summary-footnote { font-size: 12px; color: #888; text-align: center; line-height: 18px; }
+.summary-emner-group { border: 1.5px solid #e5e5e5; border-radius: 10px; overflow: hidden; }
+.summary-emner-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; gap: 8px; }
+.summary-emner-header:hover { background: #fafafa; }
+.summary-emner-header .seg-label { font-size: 14px; font-weight: 500; color: #121212; }
+.summary-emner-header .seg-chevron { transition: transform .2s; flex-shrink: 0; }
+.summary-emner-header.open .seg-chevron { transform: rotate(180deg); }
+.summary-emner-list { display: none; border-top: 1px solid #e5e5e5; }
+.summary-emner-list.open { display: block; }
+.summary-emne-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 8px; }
+.summary-emne-row:last-child { border-bottom: none; }
+.summary-emne-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.summary-emne-code { color: #888; font-size: 12px; }
+.summary-emne-name { color: #121212; font-weight: 500; }
+.summary-emne-badge { background: #f0f0f0; border-radius: 4px; padding: 2px 8px; font-size: 11px; color: #555; white-space: nowrap; }
 .summary-submit { padding: 0 20px 24px; background: #fff; }
 
 /* ── Kvitteringsside ── */
@@ -351,7 +365,7 @@ body {
         <div class="login-section">
           <button class="btn-login" onclick="simulateLogin()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="#fff" stroke-width="1.5"/></svg>
-            Logg inn med Kristiania-konto
+            Logg inn på Kristiania
           </button>
           <div class="eller-row">
             <div class="eller-line"></div>
@@ -362,7 +376,10 @@ body {
 
         <!-- Kontakt -->
         <div class="form-section">
-          <h2 class="section-title">Kontakt</h2>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;">
+            <h2 class="section-title">Kontakt</h2>
+            <a href="javascript:void(0)" onclick="hentFraTelefon()" style="font-size:13px;color:#06f;text-decoration:underline;white-space:nowrap;">Hent personopplysninger fra telefonnummer</a>
+          </div>
 
           <div>
             <div class="input-wrap" id="wrap-telefon">
@@ -467,15 +484,22 @@ body {
         <div class="form-section">
           <h2 class="section-title">Betaling</h2>
 
-          <!-- Dynamic price summary from basket -->
-          <div class="payment-info-box">
-            <div class="payment-price-rows" id="paymentPriceRows">
-              <!-- Populated by JS -->
+          <!-- Studieprogram – faktureres per semester -->
+          <div id="betalingStudieprogram" style="display:none;">
+            <div style="font-size:14px;font-weight:600;color:#121212;margin-bottom:8px;">Studieprogram</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1.5px solid #c7c8ca;border-radius:8px;padding:14px 16px;">
+              <span style="font-size:14px;color:#3f3f3f;" id="betalingSPLabel">Faktureres per semester</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;color:#888;cursor:help;" title="Studieprogrammet faktureres semestervis etter oppstart"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4m0-4h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
           </div>
 
-          <div>
-            <div style="font-size:14px;font-weight:500;color:#4e0000;margin-bottom:8px;">Velg betalingsmetode</div>
+          <!-- Emner – betales up front -->
+          <div id="betalingEmner" style="display:none;">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;">
+              <span style="font-size:14px;font-weight:600;color:#121212;">Emner</span>
+              <span style="font-size:13px;color:#666;" id="betalingEmnerCount"></span>
+            </div>
+
             <div class="radio-group" id="betalingGroup">
               <!-- Kortbetaling -->
               <label class="radio-option" id="opt-kort">
@@ -532,10 +556,12 @@ body {
             <div class="error-msg" id="err-betaling" style="display:none;">Velg en betalingsmetode</div>
           </div>
 
+          <div class="payment-footnote">Alltid 14 dagers angrerett. Alle transaksjoner er sikre og krypterte.</div>
+
           <!-- Rabattkode -->
           <div>
             <button class="rabattkode-toggle" onclick="toggleRabattkode()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1" fill="currentColor"/></svg>
               Rabattkode
             </button>
             <div class="rabattkode-row" id="rabattkodeRow">
@@ -543,8 +569,6 @@ body {
               <button onclick="applyRabattkode()">Bruk</button>
             </div>
           </div>
-
-          <div class="payment-footnote">Alltid 14 dagers angrerett. Alle transaksjoner er sikre og krypterte.</div>
         </div>
 
         <!-- Samtykke + Send (mobile) -->
@@ -577,8 +601,10 @@ body {
         </svg>
       </div>
       <div class="summary-body" id="desktopSummaryBody">
-        <div id="checkout-summary-content" style="display:flex;flex-direction:column;gap:12px;"></div>
-        <div class="summary-footnote" style="margin-top:16px;">Alltid 14 dagers angrerett.<br>Alle transaksjoner er sikre og krypterte.</div>
+        <!-- Studieprogram -->
+        <div id="summary-programs" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <!-- Emner -->
+        <div id="summary-emner" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
       <div class="summary-submit" id="desktopSubmit">
         <button class="btn-primary" onclick="sendSoknad()">Send søknaden</button>
@@ -614,52 +640,108 @@ body {
 /* ── Render summary ── */
 function renderCheckoutSummary() {
   var b = getBasket();
-  var el = document.getElementById('checkout-summary-content');
-  if (!el) return;
-  var hasItems = (b.programs && b.programs.length > 0) || (b.looseEmner && b.looseEmner.length > 0);
+  var progEl = document.getElementById('summary-programs');
+  var emnerEl = document.getElementById('summary-emner');
+  if (!progEl || !emnerEl) return;
+
+  var programs = b.programs || [];
+  var loose = b.looseEmner || [];
+  var hasItems = programs.length > 0 || loose.length > 0;
+
   if (!hasItems) {
-    el.innerHTML = '<div style="color:#888;font-size:14px;text-align:center;padding:16px 0;">Ingen studier valgt. <a href="studietilbud _ Kristiania.html" style="color:#4e0000;">Gå til studietilbud</a></div>';
+    progEl.innerHTML = '<div style="color:#888;font-size:14px;text-align:center;padding:16px 0;">Ingen studier valgt. <a href="studietilbud _ Kristiania.html" style="color:#4e0000;">Gå til studietilbud</a></div>';
+    emnerEl.innerHTML = '';
     return;
   }
-  var campus = (b.programs || []).filter(function(p) { return p.type === 'campus'; });
-  var nett = (b.programs || []).filter(function(p) { return p.type === 'nett'; });
-  var loose = b.looseEmner || [];
-  var html = '';
-  var grandTotal = 0;
-  if (campus.length > 0) {
-    campus.forEach(function(p) {
-      html += '<div style="border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
-        + '<div style="font-size:15px;font-weight:600;margin-bottom:4px;">' + p.name + '</div>'
-        + '<div style="font-size:13px;color:#666;">' + (p.city || '') + ' &middot; ' + (p.points || '') + '</div>'
-        + '</div>';
-      grandTotal += (p.price || 0);
+
+  // ── Studieprogram section ──
+  var progHtml = '';
+  if (programs.length > 0) {
+    progHtml += '<div style="font-size:13px;font-weight:600;color:#4e0000;text-transform:uppercase;letter-spacing:.5px;">Studieprogram</div>';
+    programs.forEach(function(p) {
+      var badges = '';
+      if (p.startSemester) badges += '<span style="background:#f0f0f0;border-radius:4px;padding:2px 8px;font-size:11px;color:#555;">' + p.startSemester + '</span>';
+      if (p.city) badges += '<span style="background:#ffecd2;border-radius:4px;padding:2px 8px;font-size:11px;color:#7a4a00;">' + p.city + '</span>';
+      progHtml += '<div style="border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 16px;">'
+        + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+        + '<span style="font-size:14px;font-weight:600;">' + (p.level ? p.level + ' i ' : '') + p.name + '</span>'
+        + '<div style="display:flex;gap:4px;">' + badges + '</div>'
+        + '</div></div>';
     });
   }
-  if (nett.length > 0) {
-    nett.forEach(function(p) {
-      var emner = p.emner || [];
-      var progTotal = 0;
-      emner.forEach(function(e) { progTotal += (e.price || 0); });
-      html += '<div style="border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 16px;margin-bottom:8px;">'
-        + '<div style="font-size:15px;font-weight:600;margin-bottom:4px;">' + p.name + '</div>'
-        + '<div style="font-size:13px;color:#666;">Nett &middot; ' + (p.points || emner.length + ' emner') + '</div>'
-        + '</div>';
-      grandTotal += progTotal;
+  progEl.innerHTML = progHtml;
+
+  // ── Emner section ──
+  // Collect all emner: from nett programs + loose
+  var allEmner = [];
+  var emnerByProgram = {};
+  programs.forEach(function(p) {
+    if (p.type === 'nett' && p.emner && p.emner.length > 0) {
+      emnerByProgram[p.name] = { emner: p.emner, count: p.emner.length };
+      p.emner.forEach(function(e) { allEmner.push(e); });
+    }
+  });
+  loose.forEach(function(e) { allEmner.push(e); });
+
+  var emnerHtml = '';
+  if (allEmner.length > 0) {
+    var totalPrice = 0;
+    allEmner.forEach(function(e) { totalPrice += (e.price || 0); });
+
+    emnerHtml += '<div style="display:flex;align-items:baseline;justify-content:space-between;">'
+      + '<span style="font-size:13px;font-weight:600;color:#4e0000;text-transform:uppercase;letter-spacing:.5px;">Emner</span>'
+      + '<span style="font-size:13px;color:#666;">' + allEmner.length + ' emner &middot; ' + totalPrice.toLocaleString('nb-NO') + ' kr</span>'
+      + '</div>';
+
+    // Group: nett program emner
+    Object.keys(emnerByProgram).forEach(function(progName) {
+      var group = emnerByProgram[progName];
+      var gid = 'seg-' + progName.replace(/\s/g, '-').substring(0, 20);
+      emnerHtml += '<div class="summary-emner-group">'
+        + '<div class="summary-emner-header" onclick="toggleSummaryGroup(this)">'
+        + '<span class="seg-label">' + progName + '<br><span style="font-size:12px;font-weight:400;color:#888;">' + group.count + ' emner</span></span>'
+        + '<svg class="seg-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '</div>'
+        + '<div class="summary-emner-list">';
+      group.emner.forEach(function(e) {
+        emnerHtml += '<div class="summary-emne-row">'
+          + '<div class="summary-emne-info">'
+          + (e.code ? '<span class="summary-emne-code">#' + e.code + ' &middot; ' + (e.pts || '7,5') + ' studiepoeng</span>' : '')
+          + '<span class="summary-emne-name">' + e.name + '</span>'
+          + '</div>'
+          + '<span class="summary-emne-badge">Nett</span>'
+          + '</div>';
+      });
+      emnerHtml += '</div></div>';
     });
+
+    // Loose emner
+    if (loose.length > 0) {
+      emnerHtml += '<div class="summary-emner-group">'
+        + '<div class="summary-emner-header" onclick="toggleSummaryGroup(this)">'
+        + '<span class="seg-label">Emner uten tilknytning til studieprogram<br><span style="font-size:12px;font-weight:400;color:#888;">' + loose.length + ' emne' + (loose.length > 1 ? 'r' : '') + '</span></span>'
+        + '<svg class="seg-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '</div>'
+        + '<div class="summary-emner-list">';
+      loose.forEach(function(e) {
+        emnerHtml += '<div class="summary-emne-row">'
+          + '<div class="summary-emne-info">'
+          + (e.code ? '<span class="summary-emne-code">#' + e.code + ' &middot; ' + (e.pts || '7,5') + ' studiepoeng</span>' : '')
+          + '<span class="summary-emne-name">' + e.name + '</span>'
+          + '</div>'
+          + '<span class="summary-emne-badge">Nett</span>'
+          + '</div>';
+      });
+      emnerHtml += '</div></div>';
+    }
   }
-  if (loose.length > 0) {
-    loose.forEach(function(e) {
-      html += '<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;">'
-        + '<span>' + e.name + ' (' + e.pts + ' stp)</span>'
-        + '<span style="white-space:nowrap;">' + (e.price || 0).toLocaleString('nb-NO') + ' kr</span></div>';
-      grandTotal += (e.price || 0);
-    });
-  }
-  if (grandTotal > 0) {
-    html += '<div class="summary-divider"></div>'
-      + '<div class="summary-total"><span class="summary-total-label">Totalt</span><span class="summary-total-value">' + grandTotal.toLocaleString('nb-NO') + ' kr</span></div>';
-  }
-  el.innerHTML = html;
+  emnerEl.innerHTML = emnerHtml;
+}
+
+function toggleSummaryGroup(header) {
+  header.classList.toggle('open');
+  var list = header.nextElementSibling;
+  list.classList.toggle('open');
 }
 
 /* ── Validation ── */
@@ -696,16 +778,17 @@ function validateForm() {
   if (!validateField('postnr', /^\d{4}$/.test(postnr))) ok = false;
   if (!validateField('poststed', document.getElementById('poststed').value.trim().length > 0)) ok = false;
 
-  // Betaling
+  // Betaling — only required when emner exist (studieprogram is faktura)
+  var emnerVisible = document.getElementById('betalingEmner').style.display !== 'none';
   var betalingChecked = document.querySelector('input[name="betaling"]:checked');
   var errBetaling = document.getElementById('err-betaling');
-  if (!betalingChecked) {
+  if (emnerVisible && !betalingChecked) {
     ok = false;
     if (errBetaling) errBetaling.style.display = 'block';
   } else {
     if (errBetaling) errBetaling.style.display = 'none';
     // Validate card fields if Kortbetaling is selected
-    if (betalingChecked.value === 'kort') {
+    if (betalingChecked && betalingChecked.value === 'kort') {
       var cn = document.getElementById('card-number').value.replace(/\s/g, '');
       if (cn.length < 13) { ok = false; document.getElementById('card-number').style.borderColor = '#b60202'; }
       else { document.getElementById('card-number').style.borderColor = ''; }
@@ -858,53 +941,67 @@ function updateRadio(input) {
   }
 }
 
-/* ── Payment price summary ── */
+/* ── Payment section rendering ── */
 function renderPaymentPrices() {
   var b = getBasket();
-  var el = document.getElementById('paymentPriceRows');
-  if (!el) return;
-  var html = '';
+  var spSection = document.getElementById('betalingStudieprogram');
+  var emnerSection = document.getElementById('betalingEmner');
+  var emnerCount = document.getElementById('betalingEmnerCount');
 
-  // Campus programs → "Faktureres per semester"
-  var campus = (b.programs || []).filter(function(p) { return p.type === 'campus'; });
-  if (campus.length > 0) {
-    campus.forEach(function(p) {
-      html += '<div class="payment-price-row">'
-        + '<div><div class="payment-price-label">Studieprogram</div><div class="payment-price-sub">' + p.name + '</div></div>'
-        + '<div class="payment-price-value">Faktureres per semester</div>'
-        + '</div>';
-    });
+  var programs = b.programs || [];
+  var loose = b.looseEmner || [];
+
+  // Show studieprogram faktura section if any programs exist
+  if (programs.length > 0) {
+    spSection.style.display = 'block';
+  } else {
+    spSection.style.display = 'none';
   }
 
-  // Nett programs → count emner + total price
-  var nett = (b.programs || []).filter(function(p) { return p.type === 'nett'; });
-  nett.forEach(function(p) {
-    var emner = p.emner || [];
-    var total = 0;
-    emner.forEach(function(e) { total += (e.price || 0); });
-    if (emner.length > 0) {
-      html += '<div class="payment-price-row">'
-        + '<div><div class="payment-price-label">Emner</div><div class="payment-price-sub">' + p.name + '</div></div>'
-        + '<div class="payment-price-value">' + emner.length + ' emner &middot; ' + total.toLocaleString('nb-NO') + ' kr</div>'
-        + '</div>';
+  // Collect all emner (from nett programs + loose)
+  var allEmner = [];
+  programs.forEach(function(p) {
+    if (p.type === 'nett' && p.emner) {
+      p.emner.forEach(function(e) { allEmner.push(e); });
     }
   });
+  loose.forEach(function(e) { allEmner.push(e); });
 
-  // Loose emner
-  var loose = b.looseEmner || [];
-  if (loose.length > 0) {
-    var looseTotal = 0;
-    loose.forEach(function(e) { looseTotal += (e.price || 0); });
-    html += '<div class="payment-price-row">'
-      + '<div><div class="payment-price-label">Enkeltemner</div></div>'
-      + '<div class="payment-price-value">' + loose.length + ' emner &middot; ' + looseTotal.toLocaleString('nb-NO') + ' kr</div>'
-      + '</div>';
+  if (allEmner.length > 0) {
+    emnerSection.style.display = 'block';
+    var totalPrice = 0;
+    allEmner.forEach(function(e) { totalPrice += (e.price || 0); });
+    emnerCount.textContent = allEmner.length + ' emner \u00b7 ' + totalPrice.toLocaleString('nb-NO') + ' kr';
+  } else {
+    emnerSection.style.display = 'none';
   }
+}
 
-  if (!html) {
-    html = '<div class="payment-price-row"><div class="payment-price-label" style="color:#888;">Ingen emner i handlekurven</div></div>';
+/* ── Hent personopplysninger fra telefonnummer (1881 lookup simulation) ── */
+function hentFraTelefon() {
+  var tel = document.getElementById('telefon').value.replace(/\s/g, '');
+  if (!tel || tel.length < 8) {
+    alert('Skriv inn et gyldig telefonnummer først.');
+    document.getElementById('telefon').focus();
+    return;
   }
-  el.innerHTML = html;
+  // Simulate 1881 lookup
+  document.getElementById('fornavn').value = 'Ola';
+  document.getElementById('etternavn').value = 'Nordmann';
+  document.getElementById('gate').value = 'Akersveien 24F';
+  document.getElementById('postnr').value = '0177';
+  document.getElementById('poststed').value = 'Oslo';
+  // Trigger float labels
+  document.querySelectorAll('.input-wrap input').forEach(function(inp) {
+    if (inp.value) inp.dispatchEvent(new Event('input'));
+  });
+  // Clear errors on filled fields
+  ['fornavn','etternavn','gate','postnr','poststed'].forEach(function(id) {
+    var wrap = document.getElementById('wrap-' + id);
+    if (wrap) wrap.classList.remove('error');
+    var err = document.getElementById('err-' + id);
+    if (err) err.style.display = 'none';
+  });
 }
 
 /* ── Card number formatting ── */
